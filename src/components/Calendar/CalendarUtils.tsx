@@ -27,7 +27,7 @@ const pad = (input: number) => {
   return input < 10 ? "0" + input : input;
 };
 
-// I'm using default <input type="datepick-local">,
+// I'm using default <input type="datetime-local">,
 // so a specific date format is required
 export const dateToInputFormat = (date: Date | undefined) => {
   if (!date) {

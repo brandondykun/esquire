@@ -8,6 +8,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { useEffect, useState } from "react";
 import { saveNote, editNote, getNote } from "../api/apiCalls";
 import Switch from "react-switch";
+import { useAuthContext } from "../context/AuthContext";
 
 type Note = {
   id: number;
@@ -50,6 +51,8 @@ const NotesEditor = ({
   const [popupMessage, setPopupMessage] = useState(defaultPopup);
   const [content, setContent] = useState<JSON | null>(null);
 
+  const { currentUser } = useAuthContext();
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -86,7 +89,9 @@ const NotesEditor = ({
   });
 
   useEffect(() => {
-    editor?.commands.setContent(note.data);
+    if (note) {
+      editor?.commands.setContent(note.data);
+    }
   }, [note]);
 
   // Determine if the current note in the editor has been changed
@@ -168,6 +173,8 @@ const NotesEditor = ({
         id: note.id,
         data: editor?.getJSON(),
         hasChanges: false,
+        client_id: null,
+        user_id: currentUser?.id,
       };
       editNote(note.id, formatted)
         .then((res) => {
@@ -212,39 +219,38 @@ const NotesEditor = ({
     }
   };
 
-  return (
-    // <div className="notes-editor-container">
-    //   {editor?.isEditable ? (
-    //     <MenuBar editor={editor} handleSave={handleSave} saving={showPopup} />
-    //   ) : (
-    //     <div className="tip-tap-menu-bar-read-mode">
-    //       <div>READ MODE</div>
-    //     </div>
-    //   )}
-    //   <div className="editor-content-wrapper">
-    //     <EditorContent editor={editor} />
-    //     <div className="editor-edit-button">
-    //       <label>
-    //         <span>Edit</span>
-    //         <Switch
-    //           onChange={toggleEdit}
-    //           checked={editing}
-    //           height={20}
-    //           width={40}
-    //         />
-    //       </label>
-    //     </div>
+  return null;
+  // <div className="notes-editor-container">
+  //   {editor?.isEditable ? (
+  //     <MenuBar editor={editor} handleSave={handleSave} saving={showPopup} />
+  //   ) : (
+  //     <div className="tip-tap-menu-bar-read-mode">
+  //       <div>READ MODE</div>
+  //     </div>
+  //   )}
+  //   <div className="editor-content-wrapper">
+  //     <EditorContent editor={editor} />
+  //     <div className="editor-edit-button">
+  //       <label>
+  //         <span>Edit</span>
+  //         <Switch
+  //           onChange={toggleEdit}
+  //           checked={editing}
+  //           height={20}
+  //           width={40}
+  //         />
+  //       </label>
+  //     </div>
 
-    //     <div
-    //       className={`note-loading-indicator ${showPopup ? "show" : ""} ${
-    //         slideUpPopup ? "hide" : ""
-    //       }`}
-    //     >
-    //       {popupMessage.message ? popupMessage.message : ""}
-    //     </div>
-    //   </div>
-    // </div>
-  );
+  //     <div
+  //       className={`note-loading-indicator ${showPopup ? "show" : ""} ${
+  //         slideUpPopup ? "hide" : ""
+  //       }`}
+  //     >
+  //       {popupMessage.message ? popupMessage.message : ""}
+  //     </div>
+  //   </div>
+  // </div>
 };
 
 export default NotesEditor;

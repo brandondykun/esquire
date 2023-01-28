@@ -1,5 +1,6 @@
 // Sample events calendar build, explained and detailed over at
 // https://justacoding.blog/react-calendar-component-example-with-events/
+import "./calendar.scss";
 import React from "react";
 import Button from "../Button";
 import Navigation from "./Navigation";
@@ -24,8 +25,9 @@ import {
   editEvent as editEventApiCall,
   deleteEvent as deleteEventApiCall,
 } from "../../api/apiCalls";
-
-const { useState, useEffect } = React;
+import { useAuthContext } from "../../context/AuthContext";
+import camelcaseKeys from "camelcase-keys";
+import { useState, useEffect } from "react";
 
 /**
  * Calendar Component
@@ -48,6 +50,8 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
   const parsedEvents = parseEvents(eventsList);
   const [events, setEvents] = useState<EventTypeWithId[]>(parsedEvents);
 
+  const { currentUser } = useAuthContext();
+
   useEffect(() => {
     if (eventsList) {
       setEvents(eventsList);
@@ -63,30 +67,31 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
   const addEvent = (event: EventType) => {
     setIsLoading(true);
     setShowingEventForm({ visible: false });
-
-    saveEvent(event)
-      .then((res) => {
-        if (res.status === 201) {
-          const parsedEvents = parseEvents([res.data]);
-          const updatedEvents = [...events];
-          updatedEvents.push(parsedEvents[0]);
-
-          setEvents(updatedEvents);
+    if (currentUser) {
+      saveEvent({ ...event, userId: currentUser.id })
+        .then((res) => {
+          if (res.status === 201) {
+            const formattedEvent = camelcaseKeys(res.data);
+            const parsedEvents = parseEvents([formattedEvent]);
+            const updatedEvents = [...events];
+            updatedEvents.push(parsedEvents[0]);
+            setEvents(updatedEvents);
+            setIsLoading(false);
+            showFeedback({
+              message: "Event created successfully!",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err.message);
           setIsLoading(false);
           showFeedback({
-            message: "Event created successfully!",
-            type: "success",
+            message: "There was a problem saving that event.",
+            type: "error",
           });
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
-        setIsLoading(false);
-        showFeedback({
-          message: "There was a problem saving that event.",
-          type: "error",
         });
-      });
+    }
   };
 
   // Edit event
@@ -95,38 +100,44 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
     setShowingEventForm({ visible: false });
 
     // remove to and from so they're not stored in the database
-    const cleanedEvent = {
-      id: event.id,
-      name: event.name,
-      dateFrom: event.dateFrom,
-      dateTo: event.dateTo,
-      meta: event.meta,
-      type: event.type,
-    };
+    if (currentUser) {
+      const cleanedEvent = {
+        id: event.id,
+        userId: currentUser.id,
+        name: event.name,
+        dateFrom: event.dateFrom,
+        dateTo: event.dateTo,
+        meta: event.meta,
+        type: event.type,
+      };
 
-    editEventApiCall(event.id, cleanedEvent)
-      .then((res) => {
-        if (res.status === 200) {
-          const parsedEvent = parseEvents([res.data]);
-          const updatedEvents = [...events].map((updatedEvent) => {
-            return updatedEvent.id === event.id ? parsedEvent[0] : updatedEvent;
-          });
-          setEvents(updatedEvents);
+      editEventApiCall(event.id, cleanedEvent)
+        .then((res) => {
+          if (res.status === 200) {
+            const formattedEvents = camelcaseKeys(res.data);
+            const parsedEvent = parseEvents([formattedEvents]);
+            const updatedEvents = [...events].map((updatedEvent) => {
+              return updatedEvent.id === event.id
+                ? parsedEvent[0]
+                : updatedEvent;
+            });
+            setEvents(updatedEvents);
+            setIsLoading(false);
+            showFeedback({
+              message: "Event edited successfully!",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err.message);
           setIsLoading(false);
           showFeedback({
-            message: "Event edited successfully!",
-            type: "success",
+            message: "There was a problem updating that event",
+            type: "error",
           });
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
-        setIsLoading(false);
-        showFeedback({
-          message: "There was a problem updating that event",
-          type: "error",
         });
-      });
+    }
   };
 
   // Delete event

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
+import { isEqual } from "lodash";
 // import NotesEditor from "../components/NotesEditor";
 // import useNotes from "../hooks/useNotes";
 // import NotePreview from "../components/NotePreview";
 import NotesSidebar from "../components/NotesSidebar";
 import { getNotes } from "../api/apiCalls";
-
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "../components/MenuBar";
@@ -14,11 +14,15 @@ import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import { saveNote, editNote, deleteNote } from "../api/apiCalls";
 import Switch from "react-switch";
+import { useAuthContext } from "../context/AuthContext";
+import camelcaseKeys from "camelcase-keys";
 
 type Note = {
   id: number;
   data: { content: object[]; type: string };
   hasChanges: boolean;
+  userId: number;
+  clientId: number;
 };
 
 const errorPopup = { type: "error", message: "Error saving note." };
@@ -46,13 +50,19 @@ const NotesPage = () => {
 
   const [popupMessage, setPopupMessage] = useState(defaultPopup);
 
+  const { currentUser } = useAuthContext();
+
   // Initial fetch for the notes
   useEffect(() => {
+    if (!currentUser) return;
     setNotesLoading(true);
     getNotes()
       .then((res) => {
-        setNotes(res.data);
-        setNotesLoading(false);
+        if (res.status === 200) {
+          const formatted = camelcaseKeys(res.data);
+          setNotes(formatted);
+          setNotesLoading(false);
+        }
       })
       .catch((err) => {
         setNotesError("There was a problem fetching notes");
@@ -83,6 +93,7 @@ const NotesPage = () => {
     if (newCurrentNote && newCurrentNote) {
       setCurrentNote(newCurrentNote ? newCurrentNote : null);
     }
+    setCurrentHasChanges(false);
   };
 
   // handle click of the new note button
@@ -122,10 +133,7 @@ const NotesPage = () => {
       const current = notes?.find((n) => {
         return n.id === currentNote.id;
       });
-      if (
-        JSON.stringify(json) !== JSON.stringify(current?.data) &&
-        !jsonIsDefault
-      ) {
+      if (!isEqual(json, current?.data) && !jsonIsDefault) {
         if (!currentHasChanges) {
           setCurrentHasChanges(true);
         }
@@ -193,21 +201,24 @@ const NotesPage = () => {
     setShowPopup(true);
 
     // if note has an id - edit that note
-    if (currentNote?.id) {
+    if (currentNote?.id && currentUser) {
       const formatted = {
+        user_id: currentUser.id,
         id: currentNote.id,
         data: editor?.getJSON(),
         hasChanges: false,
+        client_id: null, // TO DO need to set this at some point
       };
       editNote(currentNote.id, formatted)
         .then((res) => {
           if (res.status === 200) {
             if (notes) {
+              const formatted = camelcaseKeys(res.data);
               const filtered = notes.filter((note) => {
                 return note.id !== res.data.id;
               });
               setCurrentHasChanges(false);
-              setNotes([...filtered, res.data]);
+              setNotes([...filtered, formatted]);
               setPopupMessage(successPopup);
               // setCurrentNote(res.data); // this is causing a rerender flash
             }
@@ -219,17 +230,23 @@ const NotesPage = () => {
         .finally(() => {
           hidePopup();
         });
-    } else {
+    } else if (currentUser) {
       // note doesn't have an id - save new note
-      const formatted = { data: editor?.getJSON(), hasChanges: false };
+      const formatted = {
+        data: editor?.getJSON(),
+        hasChanges: false,
+        user_id: currentUser.id,
+        client_id: null, // TO DO need to set this at some point
+      };
       saveNote(formatted)
         .then((res) => {
           if (res.status === 201) {
             if (notes) {
+              const formatted = camelcaseKeys(res.data);
               setCurrentHasChanges(false);
-              setNotes([...notes, res.data]);
+              setNotes([...notes, formatted]);
               setPopupMessage(successPopup);
-              setCurrentNote(res.data); // this is causing a rerender flash
+              setCurrentNote(formatted); // this is causing a rerender flash
             }
           }
         })

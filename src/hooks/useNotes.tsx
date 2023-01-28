@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { getNotes } from "../api/apiCalls";
+import camelcaseKeys from "camelcase-keys";
 
 type Note = {
   id: number;
   data: { content: object[]; type: string };
   hasChanges: boolean;
+  userId: number;
+  clientId: number | null;
 };
 
 const useNotes = () => {
@@ -16,8 +19,11 @@ const useNotes = () => {
     setNotesLoading(true);
     getNotes()
       .then((res) => {
-        setNotes(res.data);
-        setNotesLoading(false);
+        if (res.status === 200) {
+          const formatted = camelcaseKeys(res.data);
+          setNotes(formatted);
+          setNotesLoading(false);
+        }
       })
       .catch((err) => {
         setNotesError("There was a problem fetching notes");

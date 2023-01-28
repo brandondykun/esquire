@@ -1,0 +1,10 @@
+@use "../colors";
+
+/* ADD CASE PAGE */
+.add-case-name-container {
+  text-align: center;
+  color: colors.$dark-color;
+  font-size: 1.5rem;
+  padding-bottom: 2rem;
+  font-weight: bold;
+}

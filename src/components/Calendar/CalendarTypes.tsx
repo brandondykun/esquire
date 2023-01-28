@@ -1,5 +1,6 @@
 export type EventType = {
   id?: number;
+  userId: number;
   name: string;
   dateFrom: string;
   dateTo: string;
@@ -9,6 +10,7 @@ export type EventType = {
 
 export type EventTypeWithId = {
   id: number;
+  userId: number;
   name: string;
   dateFrom: string;
   dateTo: string;

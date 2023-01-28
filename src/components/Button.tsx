@@ -1,3 +1,4 @@
+import "./button.scss";
 import PulseLoader from "react-spinners/PulseLoader";
 
 type ButtonProps = {
@@ -34,7 +35,7 @@ const Button = ({
       type={type}
       className={`custom-button ${className ? className : ""}`}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       data-cy={dataCy}
       style={{
         width: `${width}`,
@@ -48,7 +49,7 @@ const Button = ({
       {loading && (
         <PulseLoader
           className="button-loader"
-          color="rgb(146, 146, 146)"
+          color="rgb(239, 239, 239)"
           loading={loading}
           size={8}
           aria-label="Loading Spinner"

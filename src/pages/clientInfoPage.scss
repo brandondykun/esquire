@@ -1,0 +1,18 @@
+/* CLIENT INFO PAGE */
+@use "../colors";
+
+.client-info-page {
+  color: colors.$dark-color;
+}
+  
+.client-info-name-container {
+  padding: 1rem;
+}
+  
+.client-info-address-container {
+  padding: 1rem;
+}
+  
+.client-info-contact-container {
+  padding: 1rem;
+}

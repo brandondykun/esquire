@@ -1,0 +1,30 @@
+@use "../colors";
+
+.login-form {
+    width: 400px; 
+    // margin-inline: auto;
+}
+
+.login-page-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: colors.$main-accent;
+    font-weight: bold;
+    margin: 3rem 0;
+}
+
+.login-form-container {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-error-text-container {
+  color: colors.$error-text-color;
+  height: 18px;
+  text-align: center;
+  margin-top: 2rem;
+}

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { addClient } from "../api/apiCalls";
-import CustomTextInput from "../components/CustomTextInput";
-import Button from "../components/Button";
+import CustomTextInput from "./CustomTextInput";
+import Button from "./Button";
+import { useAuthContext } from "../context/AuthContext";
 
 type AddClientNameFormProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -28,6 +29,8 @@ const AddClientNameForm = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { currentUser } = useAuthContext();
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -49,55 +52,59 @@ const AddClientNameForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setSubmitLoading(true);
+    if (currentUser) {
+      setSubmitLoading(true);
 
-    setFirstNameValid(true);
-    setMiddleNameValid(true);
-    setLastNameValid(true);
+      setFirstNameValid(true);
+      setMiddleNameValid(true);
+      setLastNameValid(true);
 
-    let preventSubmit = false;
-    if (!firstName) {
-      setFirstNameValid(false);
-      setFirstNameValidationText("Please Enter a First Name");
-      preventSubmit = true;
-    }
+      let preventSubmit = false;
+      if (!firstName) {
+        setFirstNameValid(false);
+        setFirstNameValidationText("Please Enter a First Name");
+        preventSubmit = true;
+      }
 
-    if (!middleName) {
-      setMiddleNameValid(false);
-      setMiddleNameValidationText("Please Enter a Middle Name");
-      preventSubmit = true;
-    }
+      if (!middleName) {
+        setMiddleNameValid(false);
+        setMiddleNameValidationText("Please Enter a Middle Name");
+        preventSubmit = true;
+      }
 
-    if (!lastName) {
-      setLastNameValid(false);
-      setLastNameValidationText("Please Enter a Last Name");
-      preventSubmit = true;
-    }
+      if (!lastName) {
+        setLastNameValid(false);
+        setLastNameValidationText("Please Enter a Last Name");
+        preventSubmit = true;
+      }
 
-    if (preventSubmit) {
-      setSubmitLoading(false);
-      return;
-    }
-
-    const newClient = {
-      firstName: firstName,
-      middleName: middleName,
-      lastName: lastName,
-    };
-
-    addClient(newClient)
-      .then((res) => {
-        if (res.status === 201) {
-          clearInputs();
-          setClientId(res.data.id);
-          setStep((step) => step + 1);
-          setSubmitLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log("ERROR: ", err.message);
+      if (preventSubmit) {
         setSubmitLoading(false);
-      });
+        return;
+      }
+
+      const newClient = {
+        user: currentUser?.id,
+        firstName: firstName,
+        middleName: middleName,
+        lastName: lastName,
+      };
+
+      addClient(newClient)
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("ADD CLIENT RES: ", res);
+            clearInputs();
+            setClientId(res.data.id);
+            setStep((step) => step + 1);
+            setSubmitLoading(false);
+          }
+        })
+        .catch((err) => {
+          console.log("ERROR: ", err.message);
+          setSubmitLoading(false);
+        });
+    }
   };
 
   return (

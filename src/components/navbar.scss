@@ -1,0 +1,89 @@
+@use "../colors";
+
+.primary-nav {
+    height: 60px;
+    background-color: colors.$main-dark-bg-color;
+    display: flex;
+    align-items: center;
+    padding: .3rem .6rem;
+    color: colors.$dark-color;
+    font-size: 1.2rem;
+    justify-content: space-between;
+    border-bottom: 1px solid colors.$dark-color;
+  }
+  
+  .navbar-welcome-text {
+    letter-spacing: .3rem;
+    padding-left: 1rem;
+    font-size: .9rem;
+    display: none;
+  
+    &:hover {
+      cursor: default;
+    }
+  }
+  
+  @media screen and (min-width: 600px) {
+    .navbar-welcome-text {
+      display: block;
+      font-size: .7rem;
+      line-height: normal;
+    }
+  }
+  
+  @media screen and (min-width: 600px) {
+    .navbar-welcome-text {
+      display: block;
+    }
+  }
+  
+  @media screen and (min-width: 900px) {
+    .navbar-welcome-text {
+      font-size: 1rem;
+    }
+  }
+  
+  button.sign-out-button {
+    border: none;
+    background-color: colors.$main-accent;
+    padding: .3rem .8rem;
+    color: colors.$light-color;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    border-radius: 15px;
+    transition: all .3s ease;
+    font-size: .9rem;
+  
+    &:hover {
+      color: colors.$light-color;
+      background-color: colors.$main-accent-hover;
+      cursor: default;
+    }
+  }
+  
+  a.navbar-link {
+    color: colors.$dark-color;
+    font-size: 1rem;
+    letter-spacing: .1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    &:hover {
+      color: colors.$main-accent;
+      cursor: default;
+    }
+  }
+  
+  .navbar-links-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  @media screen and (min-width: 600px) {
+    .navbar-links-container {
+      width: fit-content;
+    }
+  }

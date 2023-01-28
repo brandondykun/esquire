@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCases } from "../api/apiCalls";
 import { Case } from "../types";
+import camelcaseKeys from "camelcase-keys";
 
 type CasesProps = {
   id: number | undefined;

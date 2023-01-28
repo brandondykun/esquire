@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { addContactInfo } from "../api/apiCalls";
 import CustomTextInput from "./CustomTextInput";
-import Button from "../components/Button";
+import Button from "./Button";
 
 type AddClientContactFormProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;

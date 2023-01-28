@@ -2,7 +2,7 @@ import NotePreview from "./NotePreview";
 
 type Note = {
   id: number;
-  data: { content: object[]; type: string };
+  data: any; // this is bad so update this
   hasChanges: boolean;
 };
 
@@ -32,7 +32,7 @@ Props) => {
         .map((note) => {
           let previewText = "Untitled Note";
           if (note.data.content[0].hasOwnProperty("content")) {
-            if (note.data.content[0].content[0].type === "text") {
+            if (note.data.content[0]?.content[0].type === "text") {
               previewText = note.data.content[0].content[0].text;
             }
           }

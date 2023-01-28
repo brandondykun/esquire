@@ -1,3 +1,5 @@
+import "./addCasePage.scss";
+import "./addClientPage.scss";
 import { useState } from "react";
 import CustomTextInput from "../components/CustomTextInput";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -114,7 +116,7 @@ const AddCasePage = () => {
               id="case-name"
               label="NAME"
               value={caseName}
-              setValue={setCaseName}
+              onChange={(e) => setCaseName(e.target.value)}
               valid={caseNameValid}
               validationText={caseNameValidationText}
             />
@@ -123,7 +125,7 @@ const AddCasePage = () => {
               id="case-number"
               label="NUMBER"
               value={caseNumber}
-              setValue={setCaseNumber}
+              onChange={(e) => setCaseNumber(e.target.value)}
               valid={caseNumberValid}
               validationText={caseNumberValidationText}
             />
@@ -132,27 +134,17 @@ const AddCasePage = () => {
               id="case-type"
               label="TYPE"
               value={caseType}
-              setValue={setCaseType}
+              onChange={(e) => setCaseType(e.target.value)}
               valid={caseTypeValid}
               validationText={caseTypeValidationText}
             />
-
-            <button
+            <Button
               type="submit"
-              className="add-client-form-button"
-              disabled={submitLoading}
-            >
-              {!submitLoading && "ADD CASE"}
-              {submitLoading && (
-                <PulseLoader
-                  className="button-loader"
-                  color="rgb(146, 146, 146)"
-                  loading={submitLoading}
-                  size={8}
-                  aria-label="Loading Spinner"
-                />
-              )}
-            </button>
+              // className="add-client-form-button"
+              loading={submitLoading}
+              text="ADD CASE"
+              width="100%"
+            />
           </form>
         ) : (
           <div className="case-add-complete-container">

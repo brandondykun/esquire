@@ -1,5 +1,7 @@
 import { Tooltip } from "react-tooltip";
 import { MdDeleteForever } from "react-icons/md";
+import { useState } from "react";
+import { RotateLoader } from "react-spinners";
 
 type Note = {
   id: number;
@@ -26,16 +28,23 @@ const NotePreview = ({
 }: Props) => {
   const shouldHaveIndicator =
     (currentHasChanges && note?.id === currentNote?.id) || note.hasChanges;
+  const [isOpen, setIsOpen] = useState(false);
 
-  //   console.log("NOTE ID: ", note?.id);
-  //   console.log("Current Has Changes: ", currentHasChanges);
-  //   console.log("Note id === current note id: ", note?.id === currentNote?.id);
-  //   console.log("note.hasChanges: ", note.hasChanges);
+  const root = document.getElementById("root");
 
-  //   console.log(previewText, "  SHOULD HAVE INDICATOR: ", shouldHaveIndicator);
-  //   console.log("NOTE: ", note);
+  const removeClick = () => {
+    setIsOpen(false);
+    console.log("REMOVED EVENT LISTENER");
+    root?.removeEventListener("click", removeClick);
+  };
 
-  //   console.log("CURRENT HAS CHANGES: ", currentHasChanges);
+  const handleTrashButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setIsOpen(true);
+    console.log("ADDED EVENT LISTENER");
+    root?.addEventListener("click", removeClick);
+  };
+
   return (
     <div
       key={note?.id}
@@ -61,14 +70,40 @@ const NotePreview = ({
       </div>
       <div className="note-preview-text-container">
         <div className="note-preview-text">{previewText}</div>
+        <Tooltip
+          anchorId={`delete-button-anchor-${note.id}`}
+          // events={["click"]}
+          place="right"
+          className="note-delete-tooltip"
+          classNameArrow="note-delete-tooltip-arrow"
+          isOpen={isOpen}
+          offset={14}
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(Number(note?.id));
+              setIsOpen(false);
+            }}
+          >
+            DELETE
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(false);
+            }}
+          >
+            CANCEL
+          </button>
+        </Tooltip>
+
         <button
           className="note-delete-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDelete(Number(note?.id));
-          }}
+          id={`delete-button-anchor-${note.id}`}
+          onClick={handleTrashButtonClick}
         >
-          <MdDeleteForever />
+          {!isOpen && <MdDeleteForever />}
         </button>
       </div>
     </div>

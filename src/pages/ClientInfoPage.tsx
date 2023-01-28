@@ -1,7 +1,9 @@
+import "./clientInfoPage.scss";
 import useClient from "../hooks/useClient";
 import { useNavigate, useParams } from "react-router-dom";
 import useContactInfo from "../hooks/useContactInfo";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 type Param = {
   clientId: string;
@@ -75,6 +77,11 @@ const ClientInfoPage = () => {
         type="button"
         text="ADD CASE"
         onClick={() => navigate(`/add-case/${id}`)}
+      />
+      <Button
+        type="button"
+        text="ADD ACTIVITY"
+        onClick={() => navigate(`/activities/${id}`)}
       />
     </div>
   );

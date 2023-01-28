@@ -3,6 +3,7 @@ import { forwardRef } from "react";
 type CustomTextInputType = {
   id: string;
   label: string;
+  type?: "text" | "password";
   value: string;
   valid: boolean;
   validationText: string;
@@ -15,6 +16,7 @@ const CustomTextInput = forwardRef(
     {
       id,
       label,
+      type,
       value,
       valid,
       validationText,
@@ -30,7 +32,7 @@ const CustomTextInput = forwardRef(
         </label>
         <input
           ref={ref}
-          type="text"
+          type={type ? type : "text"}
           id={id}
           value={value}
           placeholder={placeholder}

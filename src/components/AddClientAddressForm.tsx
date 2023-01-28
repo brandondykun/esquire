@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { addAddress } from "../api/apiCalls";
-import CustomTextInput from "../components/CustomTextInput";
-import Button from "../components/Button";
+import CustomTextInput from "./CustomTextInput";
+import Button from "./Button";
 
 type AddClientAddressFormProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;

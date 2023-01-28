@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getContactInfo } from "../api/apiCalls";
 import { ContactInfo } from "../types";
+import camelcaseKeys from "camelcase-keys";
 
 type ContactInfoProp = {
   id: number;
@@ -15,14 +16,13 @@ const useContactInfo = ({ id }: ContactInfoProp) => {
     setContactLoading(true);
     getContactInfo(id)
       .then((res) => {
-        const info = res.data[0];
-        setContactInfo({ phone: info.phone, email: info.email });
-        setContactLoading(false);
+        const formatted = camelcaseKeys(res.data);
+        setContactInfo(formatted);
       })
       .catch((err) => {
         setContactError("There was a problem fetching contact info");
-        setContactLoading(false);
-      });
+      })
+      .finally(() => setContactLoading(false));
   }, [id]);
 
   return { contactLoading, contactInfo, contactError };

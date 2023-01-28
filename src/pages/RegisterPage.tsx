@@ -2,20 +2,22 @@ import "./loginPage.scss";
 import { useState } from "react";
 import Button from "../components/Button";
 import CustomTextInput from "../components/CustomTextInput";
+import { registerUser } from "../api/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { login } from "../api/apiCalls";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [usernameErrorText, setUsernameErrorText] = useState("");
   const [passwordErrorText, setPasswordErrorText] = useState("");
+  const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState("");
 
   const [loginErrorText, setLoginErrorText] = useState("");
 
-  const [loginLoading, setLoginLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
 
   const { currentUser, setCurrentUser } = useAuthContext();
 
@@ -26,6 +28,7 @@ const LoginPage = () => {
 
     setUsernameErrorText("");
     setPasswordErrorText("");
+    setConfirmPasswordErrorText("");
     setLoginErrorText("");
 
     let error = false;
@@ -40,37 +43,51 @@ const LoginPage = () => {
       error = true;
     }
 
+    if (!confirmPassword) {
+      setConfirmPasswordErrorText("Please enter a confirmation password.");
+      error = true;
+    }
+
     if (error) {
       console.log("ERROR");
       setLoginErrorText("Please complete all fields.");
       return;
+    } else if (password !== confirmPassword) {
+      setLoginErrorText("Passwords do not match.");
+      return;
     }
-    // This is a mock login
-    setLoginLoading(true);
-    login({ email: username, password })
+
+    const newUserData = { email: username, password };
+    setRegisterLoading(true);
+    registerUser(newUserData)
       .then((res) => {
-        if (res.status === 200) {
-          setCurrentUser(res.data);
+        console.log("REGISTER RES: ", res);
+        if (res.status === 201) {
+          const dbUser = res.data;
+          console.log("DB USER: ", dbUser);
+          setCurrentUser({ id: dbUser.id, username: dbUser.username });
           navigate("/");
           return;
+        } else if (res.status >= 400) {
+          console.log("ERROR RES: ", res);
+          setLoginErrorText(res.data.error);
         }
-        setLoginErrorText("Invalid credentials.");
       })
       .catch((err) => {
         console.error("LOGIN ERR: ", err.message);
-        setLoginErrorText("There was an issue logging you in.");
+        setLoginErrorText("There was an issue registering your account.");
       })
-      .finally(() => setLoginLoading(false));
+      .finally(() => setRegisterLoading(false));
   };
 
   return (
     <div className="page-container">
-      <div className="login-page-title">LOG IN</div>
+      <div className="login-page-title">Register</div>
       <div className="login-form-container">
         <form onSubmit={handleSubmit} className="login-form">
           <CustomTextInput
             id="username"
-            label="USERNAME"
+            label="EMAIL"
             value={username}
             valid={!usernameErrorText}
             validationText={usernameErrorText}
@@ -86,7 +103,17 @@ const LoginPage = () => {
             validationText={passwordErrorText}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit" text="SUBMIT" loading={loginLoading} />
+
+          <CustomTextInput
+            id="confirm-password"
+            label="CONFIRM PASSWORD"
+            type="password"
+            value={confirmPassword}
+            valid={!confirmPasswordErrorText}
+            validationText={confirmPasswordErrorText}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Button type="submit" text="REGISTER" loading={registerLoading} />
           <div className="login-error-text-container">{loginErrorText}</div>
         </form>
       </div>
@@ -94,4 +121,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

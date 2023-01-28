@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Address, Client } from "../types";
+import { Address, Client, DbAddress, DbClient } from "../types";
 import { getClient, getAddress } from "../api/apiCalls";
+import camelcaseKeys from "camelcase-keys";
 
 type ClientProps = {
   id: number | undefined;
@@ -22,8 +23,12 @@ const useClient = ({ id }: ClientProps) => {
       setAddressLoading(true);
       getClient(id)
         .then((res) => {
-          setClientName(res.data);
-          setNameLoading(false);
+          if (res.status === 200) {
+            // format the backend object to match front end structure
+            const formatted = camelcaseKeys(res.data);
+            setClientName(formatted);
+            setNameLoading(false);
+          }
         })
         .catch((err) => {
           setNameError("There was a problem fetching that client");
@@ -32,9 +37,12 @@ const useClient = ({ id }: ClientProps) => {
       // get client address
       getAddress(id)
         .then((res) => {
-          const response: Address = res.data[0];
-          setAddress(response);
-          setAddressLoading(false);
+          if (res.status === 200) {
+            // format the backend object to match front end structure
+            const formatted = camelcaseKeys(res.data);
+            setAddress(formatted);
+            setAddressLoading(false);
+          }
         })
         .catch((err) => {
           setAddressError("There was a problem fetching the address");

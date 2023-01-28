@@ -1,0 +1,74 @@
+@use '../colors';
+
+/* PROGRESS BAR */
+.progress-bar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: colors.$dark-color;
+    padding-bottom: 3rem;
+   }
+   
+   .progress-bar {
+     display: flex;
+     align-items: center;
+   }
+   
+   .progress-circle {
+     height: 30px;
+     width: 30px;
+     border-radius: 50%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: colors.$light-color;
+     background-color: colors.$bright-white;
+     border: 1px solid colors.$main-accent;
+   
+     &.complete {
+       background-color: colors.$main-accent;
+       border: 1px solid colors.$main-accent;
+     }
+   }
+   
+   
+   .progress-connector {
+     height: 3px;
+     width: 200px;
+     background-color: colors.$main-accent;
+   }
+   
+   .progress-bar-labels {
+     display: flex;
+     justify-content: space-between;
+     width: 510px;
+     padding-top: .3rem;
+   }
+   
+   .progress-bar-label {
+     flex: 1;
+     text-align: center;
+     color: colors.$disabled-button;
+   }
+   
+   .progress-bar-label.complete {
+     color: colors.$dark-color;
+   }
+   
+   .progress-bar-number {
+     color: colors.$dark-color;
+   }
+   
+   .progress-circle.complete > .progress-bar-number {
+     color: colors.$light-color;
+   }
+   
+   .progress-bar-labels > .progress-bar-label:first-child {
+     text-align: left;
+   }
+   
+   .progress-bar-labels > .progress-bar-label:last-child {
+     text-align: right;
+   }
