@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getEvents } from "../api/apiCalls";
 import { EventTypeWithId } from "../components/Calendar/CalendarTypes";
 import { useAuthContext } from "../context/AuthContext";
@@ -8,6 +9,8 @@ const useEvents = () => {
   const [eventsLoading, setEventsLoading] = useState<boolean>(true);
   const [eventsList, setEventsList] = useState<null | EventTypeWithId[]>(null);
   const [eventsError, setEventsError] = useState<null | string>(null);
+
+  const navigate = useNavigate();
 
   const { currentUser } = useAuthContext();
 
@@ -21,6 +24,9 @@ const useEvents = () => {
           setEventsLoading(false);
         })
         .catch((err) => {
+          if (err.response?.data?.error === "NO TOKEN") {
+            navigate("/login");
+          }
           setEventsError("There was a problem fetching your list");
           setEventsLoading(false);
         });

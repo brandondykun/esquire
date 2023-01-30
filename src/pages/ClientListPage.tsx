@@ -56,13 +56,15 @@ const ClientListPage = () => {
           className="client-list-container"
           onClick={() => setActiveClient(undefined)}
         >
-          <button
-            type="button"
-            className="add-client-button"
-            onClick={() => navigate("/add-client")}
-          >
-            ADD CLIENT
-          </button>
+          <div className="add-client-button-container">
+            <button
+              type="button"
+              className="add-client-button"
+              onClick={() => navigate("/add-client")}
+            >
+              ADD CLIENT
+            </button>
+          </div>
           <h1 className="client-page-title">CLIENT LIST</h1>
           <div className="name-input-button-container">
             <input

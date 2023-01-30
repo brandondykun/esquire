@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Address, Client, DbAddress, DbClient } from "../types";
 import { getClient, getAddress } from "../api/apiCalls";
 import camelcaseKeys from "camelcase-keys";
@@ -15,6 +16,8 @@ const useClient = ({ id }: ClientProps) => {
   const [address, setAddress] = useState<Address | null>(null);
   const [addressLoading, setAddressLoading] = useState<boolean>(false);
   const [addressError, setAddressError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // get client name
@@ -45,6 +48,9 @@ const useClient = ({ id }: ClientProps) => {
           }
         })
         .catch((err) => {
+          if (err.response?.data?.error === "NO TOKEN") {
+            navigate("/login");
+          }
           setAddressError("There was a problem fetching the address");
           setAddressLoading(false);
         });

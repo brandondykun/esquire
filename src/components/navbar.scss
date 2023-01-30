@@ -22,6 +22,12 @@
       cursor: default;
     }
   }
+
+  .nav-text {
+    display: none;
+    font-size: .7rem;
+    letter-spacing: .2rem;
+  }
   
   @media screen and (min-width: 600px) {
     .navbar-welcome-text {
@@ -40,6 +46,14 @@
   @media screen and (min-width: 900px) {
     .navbar-welcome-text {
       font-size: 1rem;
+    }
+
+    .nav-text {
+      display: block;
+    }
+
+    .nav-icon {
+      display: none;
     }
   }
   

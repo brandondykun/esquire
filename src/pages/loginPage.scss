@@ -2,24 +2,34 @@
 
 .login-form {
     width: 400px; 
+    padding: 2rem;
     // margin-inline: auto;
 }
 
 .login-page-title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     color: colors.$main-accent;
     font-weight: bold;
-    margin: 3rem 0;
+    margin: 3rem 0 1rem 0;
+    font-family: cursive;
+}
+
+.login-form-title {
+  color: colors.$dark-color;
+  font-size: 1.3rem;
+  padding-top: 2rem;
 }
 
 .login-form-container {
-    width: 100%;
+    // width: 500px;
+    margin: 0 auto;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 3rem;
 }
 
 .login-error-text-container {

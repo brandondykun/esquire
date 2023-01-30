@@ -44,6 +44,17 @@ export const whoAmI = () => {
 };
 
 /**
+ * LOG OUT USER
+ */
+export const logOut = () => {
+  return axios.post(
+    `${REAL_BACKEND}/auth/logout`,
+    {},
+    { withCredentials: true }
+  );
+};
+
+/**
  * CLIENT API CALLS
  */
 export const getClients = (id: number) => {
@@ -113,22 +124,6 @@ export const deleteNote = (id: number) => {
 };
 
 /**
- *
- *
- *
- * STILL NEED TO CONVERT TO REAL BACKEND
- *
- *
- */
-
-/**
- * ACTIVITY API CALLS
- */
-export const getActivities = (id: number) => {
-  return axios.get(`${BASE_URL}/activities?clientId=${id}`);
-};
-
-/**
  * EVENTS API CALLS
  */
 export const saveEvent = (data: EventType) => {
@@ -154,16 +149,34 @@ export const deleteEvent = (id: number) => {
 };
 
 /**
+ *
+ *
+ *
+ * STILL NEED TO CONVERT TO REAL BACKEND
+ *
+ *
+ */
+
+/**
+ * ACTIVITY API CALLS
+ */
+export const getActivities = (id: number) => {
+  return axios.get(`${BASE_URL}/activities?clientId=${id}`);
+};
+
+/**
  * CASES API CALLS
  */
-export const getCases = (id: number) => {
-  return axios.get(`${BASE_URL}/case?clientId=${id}`);
+export const getCases = (clientId: number) => {
+  return axios.get(`${REAL_BACKEND}/case/user/${clientId}`, {
+    withCredentials: true,
+  });
 };
 
 export const getCase = (id: number) => {
-  return axios.get(`${BASE_URL}/case/${id}`);
+  return axios.get(`${REAL_BACKEND}/case/${id}`, { withCredentials: true });
 };
 
 export const addCase = (data: NewCaseInfo) => {
-  return axios.post(`${BASE_URL}/case`, data);
+  return axios.post(`${REAL_BACKEND}/case`, data, { withCredentials: true });
 };

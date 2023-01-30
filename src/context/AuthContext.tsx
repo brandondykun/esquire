@@ -14,7 +14,7 @@ type Props = {
 
 type CurrentUser = {
   id: number;
-  username: string;
+  email: string;
 };
 
 const AuthProvider = ({ children }: Props) => {

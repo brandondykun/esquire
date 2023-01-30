@@ -1,4 +1,3 @@
-import "./loginPage.scss";
 import { useState } from "react";
 import Button from "../components/Button";
 import CustomTextInput from "../components/CustomTextInput";
@@ -6,7 +5,7 @@ import { registerUser } from "../api/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
-const RegisterPage = () => {
+const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -79,46 +78,43 @@ const RegisterPage = () => {
       })
       .finally(() => setRegisterLoading(false));
   };
-
   return (
-    <div className="page-container">
-      <div className="login-page-title">Register</div>
-      <div className="login-form-container">
-        <form onSubmit={handleSubmit} className="login-form">
-          <CustomTextInput
-            id="username"
-            label="EMAIL"
-            value={username}
-            valid={!usernameErrorText}
-            validationText={usernameErrorText}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <>
+      <div className="login-form-title">Register</div>
+      <form onSubmit={handleSubmit} className="login-form">
+        <CustomTextInput
+          id="register-username"
+          label="EMAIL"
+          value={username}
+          valid={!usernameErrorText}
+          validationText={usernameErrorText}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-          <CustomTextInput
-            id="password"
-            label="PASSWORD"
-            type="password"
-            value={password}
-            valid={!passwordErrorText}
-            validationText={passwordErrorText}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <CustomTextInput
+          id="register-password"
+          label="PASSWORD"
+          type="password"
+          value={password}
+          valid={!passwordErrorText}
+          validationText={passwordErrorText}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-          <CustomTextInput
-            id="confirm-password"
-            label="CONFIRM PASSWORD"
-            type="password"
-            value={confirmPassword}
-            valid={!confirmPasswordErrorText}
-            validationText={confirmPasswordErrorText}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <Button type="submit" text="REGISTER" loading={registerLoading} />
-          <div className="login-error-text-container">{loginErrorText}</div>
-        </form>
-      </div>
-    </div>
+        <CustomTextInput
+          id="confirm-password"
+          label="CONFIRM PASSWORD"
+          type="password"
+          value={confirmPassword}
+          valid={!confirmPasswordErrorText}
+          validationText={confirmPasswordErrorText}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <Button type="submit" text="REGISTER" loading={registerLoading} />
+        <div className="login-error-text-container">{loginErrorText}</div>
+      </form>
+    </>
   );
 };
 
-export default RegisterPage;
+export default RegisterForm;

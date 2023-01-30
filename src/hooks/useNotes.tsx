@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getNotes } from "../api/apiCalls";
 import camelcaseKeys from "camelcase-keys";
 
@@ -15,6 +16,8 @@ const useNotes = () => {
   const [notes, setNotes] = useState<null | Note[]>(null);
   const [notesError, setNotesError] = useState<null | string>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setNotesLoading(true);
     getNotes()
@@ -26,6 +29,9 @@ const useNotes = () => {
         }
       })
       .catch((err) => {
+        if (err.response?.data?.error === "NO TOKEN") {
+          navigate("/login");
+        }
         setNotesError("There was a problem fetching notes");
         setNotesLoading(false);
       });

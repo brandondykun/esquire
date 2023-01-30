@@ -6,10 +6,11 @@ import {
   faRightFromBracket,
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { CgNotes } from "react-icons/cg";
 import { BsFillCalendarFill } from "react-icons/bs";
 import { useAuthContext } from "../context/AuthContext";
+import { logOut } from "../api/apiCalls";
 
 const Navbar = () => {
   const { currentUser, setCurrentUser } = useAuthContext();
@@ -17,34 +18,60 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    setCurrentUser(null);
-    navigate("/login");
+    logOut().then((res) => {
+      if (res.status === 200) {
+        setCurrentUser(null);
+        navigate("/login");
+      }
+    });
+  };
+
+  let activeStyle = {
+    textDecoration: "underline",
+    color: "rgb(103, 73, 73)",
+    textUnderlineOffset: "4px",
   };
 
   return (
     <div className="primary-nav">
       <div className="navbar-welcome-text">
-        Welcome, {currentUser?.username} esquire. ID: {currentUser?.id}
+        {currentUser?.email} ID: {currentUser?.id}
       </div>
       <div className="navbar-links-container">
-        <Link className="navbar-link" to="/">
-          {/* <span>Home</span> */}
-          <FontAwesomeIcon icon={faHouse} />
-        </Link>
-        <Link className="navbar-link" to="/client-list">
-          {/* <span>Client List</span> */}
-          <FontAwesomeIcon icon={faListUl} />
-        </Link>
+        <NavLink
+          className="navbar-link"
+          to="/"
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <span className="nav-text">HOME</span>
+          <FontAwesomeIcon icon={faHouse} className="nav-icon" />
+        </NavLink>
+        <NavLink
+          className="navbar-link"
+          to="/client-list"
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <span className="nav-text">CLIENT LIST</span>
+          <FontAwesomeIcon icon={faListUl} className="nav-icon" />
+        </NavLink>
 
-        <Link className="navbar-link" to="/calendar">
-          {/* <span>Calendar</span> */}
-          <BsFillCalendarFill />
-        </Link>
+        <NavLink
+          className="navbar-link"
+          to="/calendar"
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <span className="nav-text">CALENDAR</span>
+          <BsFillCalendarFill className="nav-icon" />
+        </NavLink>
 
-        <Link className="navbar-link" to="/notes">
-          {/* <span>Notes</span> */}
-          <CgNotes />
-        </Link>
+        <NavLink
+          className="navbar-link"
+          to="/notes"
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <span className="nav-text">NOTES</span>
+          <CgNotes className="nav-icon" />
+        </NavLink>
 
         <button className="sign-out-button" onClick={handleLogOut}>
           {/* <span>sign out</span> */}

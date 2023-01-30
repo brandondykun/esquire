@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getCase } from "../api/apiCalls";
 import { Case } from "../types";
 
@@ -11,6 +12,8 @@ const useCase = ({ id }: CaseProps) => {
   const [caseInfo, setCaseInfo] = useState<null | Case>(null);
   const [error, setError] = useState<null | string>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (id) {
       setError("");
@@ -22,6 +25,9 @@ const useCase = ({ id }: CaseProps) => {
           setLoading(false);
         })
         .catch((err) => {
+          if (err.response?.data?.error === "NO TOKEN") {
+            navigate("/login");
+          }
           setError("There was a problem fetching the cases");
           setLoading(false);
         });

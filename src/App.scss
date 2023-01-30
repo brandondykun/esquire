@@ -172,15 +172,21 @@ a {
   position: relative;
 }
 
+.add-client-button-container {
+  padding-right: 1rem;
+  width: 100%;
+  text-align: right;
+}
+
 .client-list-list {
   overflow: auto;
   padding-right: .5rem;
 }
 
 .add-client-button {
-  position: absolute;
-  right: 10px;
-  top: 3px;
+  // position: absolute;
+  // right: 10px;
+  // top: 3px;
   padding: .3rem .4rem;
   border: 1px solid colors.$main-accent;
   background-color: colors.$main-bg-color;
@@ -306,7 +312,6 @@ input:focus, select:focus, textarea:focus {
   width: 300px;
   background-color: colors.$main-accent;
   padding: .5rem;
-  border: 1px solid colors.$light-color;
   overflow: auto;
 }
 

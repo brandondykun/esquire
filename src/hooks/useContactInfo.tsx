@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getContactInfo } from "../api/apiCalls";
 import { ContactInfo } from "../types";
 import camelcaseKeys from "camelcase-keys";
@@ -12,6 +13,8 @@ const useContactInfo = ({ id }: ContactInfoProp) => {
   const [contactInfo, setContactInfo] = useState<null | ContactInfo>(null);
   const [contactError, setContactError] = useState<null | string>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setContactLoading(true);
     getContactInfo(id)
@@ -20,6 +23,9 @@ const useContactInfo = ({ id }: ContactInfoProp) => {
         setContactInfo(formatted);
       })
       .catch((err) => {
+        if (err.response?.data?.error === "NO TOKEN") {
+          navigate("/login");
+        }
         setContactError("There was a problem fetching contact info");
       })
       .finally(() => setContactLoading(false));

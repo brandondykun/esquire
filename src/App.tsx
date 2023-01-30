@@ -12,7 +12,6 @@ import LoginPage from "./pages/LoginPage";
 import NotesPage from "./pages/NotesPage";
 import ActivityPage from "./pages/ActivityPage";
 import AuthRoute from "./routes/AuthRoute";
-import RegisterPage from "./pages/RegisterPage";
 import { whoAmI } from "./api/apiCalls";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "./context/AuthContext";
@@ -22,10 +21,8 @@ const App = () => {
   const { currentUser, setCurrentUser } = useAuthContext();
 
   useEffect(() => {
-    console.log("SENDING WHO AM I");
     whoAmI()
       .then((res) => {
-        console.log("WHO AM I RESPONSE: ", res);
         if (res.status === 200) {
           setCurrentUser(res.data);
         }
@@ -42,10 +39,9 @@ const App = () => {
         <div>Loading...</div>
       ) : (
         <>
-          <Navbar />
+          {currentUser && <Navbar />}
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
 
             {/* prettier-ignore */}
             <Route path="/" element={<AuthRoute><HomePage /></AuthRoute>}/>
@@ -65,14 +61,6 @@ const App = () => {
             <Route path="/notes" element={<AuthRoute><NotesPage /></AuthRoute>}/>
             {/* prettier-ignore */}
             <Route path="/activities/:clientId" element={<AuthRoute><ActivityPage /></AuthRoute>}/>
-
-            {/* <Route path="/client/:clientId" element={<ClientInfoPage />} /> */}
-            {/* <Route path="/add-client" element={<AddClientPage />} /> */}
-            {/* <Route path="/add-case/:clientId" element={<AddCasePage />} /> */}
-            {/* <Route path="/case/:clientId/:caseId" element={<CaseDetailsPage />} /> */}
-            {/* <Route path="/calendar" element={<CalendarPage />} /> */}
-            {/* <Route path="/notes" element={<NotesPage />} /> */}
-            {/* <Route path="/activities/:clientId" element={<ActivityPage />} /> */}
           </Routes>
         </>
       )}
