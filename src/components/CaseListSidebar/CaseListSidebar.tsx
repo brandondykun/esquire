@@ -1,7 +1,7 @@
-import useCases from "../hooks/useCases";
-import useClient from "../hooks/useClient";
+import useCases from "../../hooks/useCases";
+import useClient from "../../hooks/useClient";
 import { Link } from "react-router-dom";
-import CaseList from "./CaseList";
+import CaseList from "../CaseList/CaseList";
 
 type ClientNameType = {
   first: string;

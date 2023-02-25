@@ -1,22 +1,22 @@
 import "./clientInfoPage.scss";
-import useClient from "../hooks/useClient";
+import useClient from "../../hooks/useClient";
 import { useParams } from "react-router-dom";
-import useContactInfo from "../hooks/useContactInfo";
-import Button from "../components/Button/Button";
+import useContactInfo from "../../hooks/useContactInfo";
+import Button from "../../components/Button/Button";
 // import { Link } from "react-router-dom";
 // import ActivityFilter from "../components/ActivityFilter";
-import ActivityList from "../components/ActivityList/ActivityList";
+import ActivityList from "../../components/ActivityList/ActivityList";
 // import CaseListSideBar from "../components/CaseListSidebar";
-import useCases from "../hooks/useCases";
-import CaseList from "../components/CaseList";
-import AddCaseModal from "../modals/addCaseModal/AddCaseModal";
+import useCases from "../../hooks/useCases";
+import CaseList from "../../components/CaseList/CaseList";
+import AddCaseModal from "../../modals/addCaseModal/AddCaseModal";
 import { useEffect, useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
-import EditClientNameModal from "../modals/editClientNameModal/EditClientNameModal";
-import useClientAddress from "../hooks/useClientAddress";
+import EditClientNameModal from "../../modals/editClientNameModal/EditClientNameModal";
+import useClientAddress from "../../hooks/useClientAddress";
 import { useSelector, useDispatch } from "react-redux";
-import { getClients } from "../reducers/clientsSlice";
-import { getActiveClient, setActiveClient } from "../reducers/clientSlice";
+import { getClients } from "../../reducers/clientsSlice";
+import { getActiveClient, setActiveClient } from "../../reducers/clientSlice";
 
 type Param = {
   clientId: string;

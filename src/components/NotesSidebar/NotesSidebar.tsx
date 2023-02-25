@@ -1,4 +1,4 @@
-import NotePreview from "./NotePreview";
+import NotePreview from "../NotePreview/NotePreview";
 
 type Note = {
   id: number;

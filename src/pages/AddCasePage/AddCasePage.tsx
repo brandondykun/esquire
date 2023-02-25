@@ -1,12 +1,12 @@
 import "./addCasePage.scss";
 import "./addClientPage.scss";
 import { useState } from "react";
-import CustomTextInput from "../components/CustomTextInput";
+import CustomTextInput from "../../components/CustomTextInput/CustomTextInput";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useParams } from "react-router-dom";
-import { addCase } from "../api/apiCalls";
-import useClient from "../hooks/useClient";
-import Button from "../components/Button/Button";
+import { addCase } from "../../api/apiCalls";
+import useClient from "../../hooks/useClient";
+import Button from "../../components/Button/Button";
 
 const AddCasePage = () => {
   const { clientId } = useParams();

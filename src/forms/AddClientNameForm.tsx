@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import CustomTextInput from "../components/CustomTextInput";
+import CustomTextInput from "../components/CustomTextInput/CustomTextInput";
 import Button from "../components/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";

@@ -1,6 +1,6 @@
-import CustomDateInput from "../CustomDateInput";
-import CustomTextInput from "../CustomTextInput";
-import CustomTextAreaInput from "../CustomTextAreaInput";
+import CustomDateInput from "../CustomDateInput/CustomDateInput";
+import CustomTextInput from "../CustomTextInput/CustomTextInput";
+import CustomTextAreaInput from "../CustomTextAreaInput/CustomTextAreaInput";
 import Button from "../Button/Button";
 import { dateToInputFormat } from "../Calendar/CalendarUtils";
 import { useState } from "react";

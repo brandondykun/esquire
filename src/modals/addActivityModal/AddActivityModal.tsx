@@ -1,7 +1,7 @@
 import "./addActivityModal.scss";
 import CustomModal from "../customModal/CustomModal";
 import { Activity } from "../../types";
-import CustomSelect from "../../components/CustomSelect";
+import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import { useState } from "react";
 import FilingForm from "../../components/ActivityForms/FilingForm";
 import CorrespondenceForm from "../../components/ActivityForms/CorrespondenceForm";
@@ -34,11 +34,7 @@ const AddActivityModal = ({ show, setShow, activities }: Props) => {
   };
 
   return (
-    <CustomModal
-      title={`ADD ACTIVITY - ${activityType.text.toUpperCase()}`}
-      show={show}
-      onClose={handleModalClose}
-    >
+    <CustomModal title={`ADD ACTIVITY - ${activityType.text.toUpperCase()}`} show={show} onClose={handleModalClose}>
       <div className="add-activity-modal-inner">
         <CustomSelect
           id="activity-type-select"

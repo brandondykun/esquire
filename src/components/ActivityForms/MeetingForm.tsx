@@ -1,11 +1,11 @@
 import { useState } from "react";
-import CustomDateInput from "../CustomDateInput";
-import CustomTextInput from "../CustomTextInput";
-import CustomTextAreaInput from "../CustomTextAreaInput";
-import CustomSelect from "../CustomSelect";
+import CustomDateInput from "../CustomDateInput/CustomDateInput";
+import CustomTextInput from "../CustomTextInput/CustomTextInput";
+import CustomTextAreaInput from "../CustomTextAreaInput/CustomTextAreaInput";
+import CustomSelect from "../CustomSelect/CustomSelect";
 import Button from "../Button/Button";
 import { dateToInputFormat } from "../Calendar/CalendarUtils";
-import CustomNumberInput from "../CustomNumberInput";
+import CustomNumberInput from "../CustomNumberInput/CustomNumberInput";
 import { useParams } from "react-router-dom";
 
 // date

@@ -1,10 +1,10 @@
 import "./loginPage.scss";
-import LoginForm from "../forms/LoginForm";
-import RegisterForm from "../forms/RegisterForm";
-import { Tabs, TabNavBar, TabNav, TabContent } from "../components/Tabs/Tabs";
+import LoginForm from "../../forms/LoginForm";
+import RegisterForm from "../../forms/RegisterForm";
+import { Tabs, TabNavBar, TabNav, TabContent } from "../../components/Tabs/Tabs";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../store/store";
-import { resetAuthState, getLogOutStatus } from "../reducers/authSlice";
+import { AppDispatch } from "../../store/store";
+import { resetAuthState, getLogOutStatus } from "../../reducers/authSlice";
 import { useEffect } from "react";
 
 const LoginPage = () => {

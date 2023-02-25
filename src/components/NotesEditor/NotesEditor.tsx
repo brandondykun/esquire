@@ -1,14 +1,14 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import MenuBar from "./MenuBar";
+import MenuBar from "../MenuBar/MenuBar";
 import Underline from "@tiptap/extension-underline";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEffect, useState } from "react";
-import { saveNote, editNote, getNote } from "../api/apiCalls";
+import { saveNote, editNote, getNote } from "../../api/apiCalls";
 import Switch from "react-switch";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 
 type Note = {
   id: number;
@@ -99,17 +99,11 @@ const NotesEditor = ({
     if (note) {
       const json = editor?.getJSON();
       const jsonIsDefault = JSON.stringify(json) === defaultJSONString; // Default editor content
-      if (
-        JSON.stringify(json) !== JSON.stringify(note?.data) &&
-        !jsonIsDefault
-      ) {
+      if (JSON.stringify(json) !== JSON.stringify(note?.data) && !jsonIsDefault) {
         if (!currentHasChanges) {
           setCurrentHasChanges(true);
         }
-      } else if (
-        JSON.stringify(json) === JSON.stringify(note?.data) &&
-        !jsonIsDefault
-      ) {
+      } else if (JSON.stringify(json) === JSON.stringify(note?.data) && !jsonIsDefault) {
         if (currentHasChanges) {
           setCurrentHasChanges(false);
         }

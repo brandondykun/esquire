@@ -1,17 +1,17 @@
 import "./clientListPage.scss";
 import { Link, useNavigate } from "react-router-dom";
-import useClients from "../hooks/useClients";
-import { Client } from "../types";
-import CaseListSideBar from "../components/CaseListSidebar";
+import useClients from "../../hooks/useClients";
+import { Client } from "../../types";
+import CaseListSideBar from "../../components/CaseListSidebar/CaseListSidebar";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import AddClientModal from "../modals/addClientModal/AddClientModal";
+import AddClientModal from "../../modals/addClientModal/AddClientModal";
 import { useSelector, useDispatch } from "react-redux";
-import { getClients, getClientsStatus, getClientsError } from "../reducers/clientsSlice";
-import { AppDispatch } from "../store/store";
-import { fetchClientsById } from "../reducers/clientsSlice";
-import { getCurrentUser } from "../reducers/authSlice";
+import { getClients, getClientsStatus, getClientsError } from "../../reducers/clientsSlice";
+import { AppDispatch } from "../../store/store";
+import { fetchClientsById } from "../../reducers/clientsSlice";
+import { getCurrentUser } from "../../reducers/authSlice";
 
 type ClientNameType = {
   first: string;

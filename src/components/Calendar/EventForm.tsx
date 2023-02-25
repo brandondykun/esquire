@@ -3,10 +3,10 @@ import { dateToInputFormat } from "./CalendarUtils";
 import { EventFormProps, EventTypeWithId, EventType } from "./CalendarTypes";
 import { useEffect, useState } from "react";
 import Button from "../Button/Button";
-import CustomTextInput from "../CustomTextInput";
-import CustomDateInput from "../CustomDateInput";
-import CustomSelect from "../CustomSelect";
-import CustomTextAreaInput from "../CustomTextAreaInput";
+import CustomTextInput from "../CustomTextInput/CustomTextInput";
+import CustomDateInput from "../CustomDateInput/CustomDateInput";
+import CustomSelect from "../CustomSelect/CustomSelect";
+import CustomTextAreaInput from "../CustomTextAreaInput/CustomTextAreaInput";
 import CustomModal from "../../modals/customModal/CustomModal";
 /**
  * EventForm Component

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import AddClientNameForm from "../forms/AddClientNameForm";
-import AddClientAddressForm from "../forms/AddClientAddressForm";
-import AddClientContactForm from "../forms/AddClientContactForm";
-import ProgressBar from "../components/ProgressBar/ProgressBar";
+import AddClientNameForm from "../../forms/AddClientNameForm";
+import AddClientAddressForm from "../../forms/AddClientAddressForm";
+import AddClientContactForm from "../../forms/AddClientContactForm";
+import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 
 const AddClientPage = () => {

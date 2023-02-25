@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import useCase from "../hooks/useCase";
-import useClient from "../hooks/useClient";
+import useCase from "../../hooks/useCase";
+import useClient from "../../hooks/useClient";
 
 const CaseDetailsPage = () => {
   const { clientId, caseId } = useParams();

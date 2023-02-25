@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../components/Button/Button";
-import CustomTextInput from "../components/CustomTextInput";
+import CustomTextInput from "../components/CustomTextInput/CustomTextInput";
 import { registerUser } from "../api/apiCalls";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";

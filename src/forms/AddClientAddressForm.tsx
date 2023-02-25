@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { addAddress } from "../api/apiCalls";
-import CustomTextInput from "../components/CustomTextInput";
+import CustomTextInput from "../components/CustomTextInput/CustomTextInput";
 import Button from "../components/Button/Button";
 
 type AddClientAddressFormProps = {

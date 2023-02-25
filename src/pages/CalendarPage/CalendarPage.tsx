@@ -1,4 +1,4 @@
-import Calendar from "../components/Calendar/Calendar";
+import Calendar from "../../components/Calendar/Calendar";
 
 const CalendarPage = () => {
   // get the current month and year to initialize the calendar on the current month and year

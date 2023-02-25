@@ -1,16 +1,15 @@
 import "./activityPage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getActivities } from "../api/apiCalls";
-import useActivities from "../hooks/useActivities";
-import CustomModal from "../modals/customModal/CustomModal";
-import AddActivityModal from "../modals/addActivityModal/AddActivityModal";
+import { getActivities } from "../../api/apiCalls";
+import useActivities from "../../hooks/useActivities";
+import CustomModal from "../../modals/customModal/CustomModal";
+import AddActivityModal from "../../modals/addActivityModal/AddActivityModal";
 
 const ActivityPage = () => {
   const { clientId } = useParams();
 
-  const { activities, activitiesError, activitiesLoading, setActivities } =
-    useActivities(clientId);
+  const { activities, activitiesError, activitiesLoading, setActivities } = useActivities(clientId);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -19,12 +18,7 @@ const ActivityPage = () => {
       {activitiesLoading && <div>Activities Loading</div>}
       <button onClick={() => setShowModal(true)}>ADD ACTIVITY</button>
 
-      <AddActivityModal
-        show={showModal}
-        setShow={setShowModal}
-        activities={activities}
-        setActivities={setActivities}
-      />
+      <AddActivityModal show={showModal} setShow={setShowModal} activities={activities} setActivities={setActivities} />
     </div>
   );
 };
@@ -62,8 +56,7 @@ const act = [
       type: "This is the type",
       filedBy: "Gillian Perez",
       deadline: "deadline",
-      comments:
-        "This is another comment about this and its a little longer than the rest.",
+      comments: "This is another comment about this and its a little longer than the rest.",
       clientId: 1,
     },
   },

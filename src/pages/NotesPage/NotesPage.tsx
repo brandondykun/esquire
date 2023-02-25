@@ -3,18 +3,18 @@ import { isEqual } from "lodash";
 // import NotesEditor from "../components/NotesEditor";
 // import useNotes from "../hooks/useNotes";
 // import NotePreview from "../components/NotePreview";
-import NotesSidebar from "../components/NotesSidebar";
-import { getNotes } from "../api/apiCalls";
+import NotesSidebar from "../../components/NotesSidebar/NotesSidebar";
+import { getNotes } from "../../api/apiCalls";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import MenuBar from "../components/MenuBar";
+import MenuBar from "../../components/MenuBar/MenuBar";
 import Underline from "@tiptap/extension-underline";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
-import { saveNote, editNote, deleteNote } from "../api/apiCalls";
+import { saveNote, editNote, deleteNote } from "../../api/apiCalls";
 import Switch from "react-switch";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 import camelcaseKeys from "camelcase-keys";
 
 type Note = {
@@ -137,10 +137,7 @@ const NotesPage = () => {
         if (!currentHasChanges) {
           setCurrentHasChanges(true);
         }
-      } else if (
-        JSON.stringify(json) === JSON.stringify(current?.data) &&
-        !jsonIsDefault
-      ) {
+      } else if (JSON.stringify(json) === JSON.stringify(current?.data) && !jsonIsDefault) {
         if (currentHasChanges) {
           setCurrentHasChanges(false);
         }
@@ -279,11 +276,7 @@ const NotesPage = () => {
 
         <div className="notes-editor-container">
           {editor?.isEditable ? (
-            <MenuBar
-              editor={editor}
-              handleSave={handleSave}
-              saving={showPopup}
-            />
+            <MenuBar editor={editor} handleSave={handleSave} saving={showPopup} />
           ) : (
             <div className="tip-tap-menu-bar-read-mode">
               <div>READ MODE</div>
@@ -292,19 +285,10 @@ const NotesPage = () => {
           <div className="editor-content-wrapper">
             <EditorContent editor={editor} />
             <div className="editor-edit-button">
-              <Switch
-                onChange={toggleEdit}
-                checked={editing}
-                height={20}
-                width={40}
-              />
+              <Switch onChange={toggleEdit} checked={editing} height={20} width={40} />
             </div>
 
-            <div
-              className={`note-loading-indicator ${showPopup ? "show" : ""} ${
-                slideUpPopup ? "hide" : ""
-              }`}
-            >
+            <div className={`note-loading-indicator ${showPopup ? "show" : ""} ${slideUpPopup ? "hide" : ""}`}>
               {popupMessage.message ? popupMessage.message : ""}
             </div>
           </div>

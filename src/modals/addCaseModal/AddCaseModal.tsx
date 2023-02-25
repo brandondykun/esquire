@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CustomTextInput from "../../components/CustomTextInput";
+import CustomTextInput from "../../components/CustomTextInput/CustomTextInput";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useParams } from "react-router-dom";
 import { addCase } from "../../api/apiCalls";
