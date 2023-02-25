@@ -1,16 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { addAddress } from "../api/apiCalls";
-import CustomTextInput from "./CustomTextInput";
-import Button from "./Button";
+import CustomTextInput from "../components/CustomTextInput";
+import Button from "../components/Button";
 
 type AddClientAddressFormProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   clientId: number;
 };
-const AddClientAddressForm = ({
-  setStep,
-  clientId,
-}: AddClientAddressFormProps) => {
+const AddClientAddressForm = ({ setStep, clientId }: AddClientAddressFormProps) => {
   const [street, setStreet] = useState("");
   const [streetValid, setStreetValid] = useState(true);
   const [streetValidationText, setStreetValidationText] = useState("");
@@ -115,54 +112,54 @@ const AddClientAddressForm = ({
   };
 
   return (
-    <div className="add-client-form-container">
-      <form onSubmit={handleSubmit} className="add-client-form">
-        <CustomTextInput
-          id="street"
-          label="STREET"
-          value={street}
-          onChange={(e) => setStreet(e.target.value)}
-          valid={streetValid}
-          validationText={streetValidationText}
-          ref={inputRef}
-        />
+    // <div className="add-client-form-container">
+    <form onSubmit={handleSubmit} className="add-client-form">
+      <CustomTextInput
+        id="street"
+        label="STREET"
+        value={street}
+        onChange={(e) => setStreet(e.target.value)}
+        valid={streetValid}
+        validationText={streetValidationText}
+        ref={inputRef}
+      />
 
-        <CustomTextInput
-          id="city"
-          label="CITY"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          valid={cityValid}
-          validationText={cityValidationText}
-        />
+      <CustomTextInput
+        id="city"
+        label="CITY"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        valid={cityValid}
+        validationText={cityValidationText}
+      />
 
-        <CustomTextInput
-          id="state"
-          label="STATE"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-          valid={stateValid}
-          validationText={stateValidationText}
-        />
+      <CustomTextInput
+        id="state"
+        label="STATE"
+        value={state}
+        onChange={(e) => setState(e.target.value)}
+        valid={stateValid}
+        validationText={stateValidationText}
+      />
 
-        <CustomTextInput
-          id="zip"
-          label="ZIP CODE"
-          value={zip}
-          onChange={(e) => setZip(e.target.value)}
-          valid={zipValid}
-          validationText={zipValidationText}
-        />
+      <CustomTextInput
+        id="zip"
+        label="ZIP CODE"
+        value={zip}
+        onChange={(e) => setZip(e.target.value)}
+        valid={zipValid}
+        validationText={zipValidationText}
+      />
 
-        <Button
-          type="submit"
-          text="ADD ADDRESS"
-          width="100%"
-          disabled={submitLoading}
-          loading={submitLoading}
-        />
-      </form>
-    </div>
+      <Button
+        type="submit"
+        text="ADD ADDRESS"
+        // width="100%"
+        disabled={submitLoading}
+        loading={submitLoading}
+      />
+    </form>
+    // </div>
   );
 };
 

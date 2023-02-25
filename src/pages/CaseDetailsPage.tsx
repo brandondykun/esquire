@@ -5,10 +5,8 @@ import useClient from "../hooks/useClient";
 const CaseDetailsPage = () => {
   const { clientId, caseId } = useParams();
 
-  const { loading, caseInfo, error } = useCase({ id: Number(caseId) });
-  const { nameLoading, clientName, nameError } = useClient({
-    id: Number(clientId),
-  });
+  const { loading, caseInfo, error } = useCase(caseId);
+  const { nameLoading, clientName, nameError } = useClient(clientId);
 
   return (
     <div className="page-container">

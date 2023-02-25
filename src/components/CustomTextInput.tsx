@@ -3,8 +3,8 @@ import { forwardRef } from "react";
 type CustomTextInputType = {
   id: string;
   label: string;
-  type?: "text" | "password";
-  value: string;
+  type?: "text" | "password" | "number";
+  value: string | number;
   valid: boolean;
   validationText: string;
   placeholder?: string;

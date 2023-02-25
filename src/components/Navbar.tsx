@@ -11,20 +11,41 @@ import { CgNotes } from "react-icons/cg";
 import { BsFillCalendarFill } from "react-icons/bs";
 import { useAuthContext } from "../context/AuthContext";
 import { logOut } from "../api/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCurrentUser,
+  logOutUser,
+  getLogOutStatus,
+  resetAuthState,
+} from "../reducers/authSlice";
+import { AppDispatch } from "../store/store";
+import { useEffect } from "react";
 
 const Navbar = () => {
-  const { currentUser, setCurrentUser } = useAuthContext();
+  // const { currentUser, setCurrentUser } = useAuthContext();
+
+  const currentUser = useSelector(getCurrentUser);
+  const logOutStatus = useSelector(getLogOutStatus);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleLogOut = () => {
-    logOut().then((res) => {
-      if (res.status === 200) {
-        setCurrentUser(null);
-        navigate("/login");
-      }
-    });
+    dispatch(logOutUser());
+    // logOut().then((res) => {
+    //   if (res.status === 200) {
+    //     // setCurrentUser(null);
+    //   }
+    // });
   };
+
+  // useEffect(() => {
+  //   if (logOutStatus === "succeeded") {
+  //     console.log("SHOULD BE RESETTING THE STATE");
+  //     dispatch(resetAuthState());
+  //     navigate("/login");
+  //   }
+  // }, [logOutStatus]);
 
   let activeStyle = {
     textDecoration: "underline",

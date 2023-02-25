@@ -1,0 +1,35 @@
+@use "../../colors";
+
+.activity-card {
+  color: colors.$dark-color;
+  width: 100%;
+  background-color: colors.$bright-white;
+  border-radius: 7px;
+  margin: 1rem auto;
+  overflow: hidden;
+}
+
+.activity-card-header > div:first-of-type {
+  font-weight: bold;
+}
+
+.activity-card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+  border-bottom: 1px solid colors.$main-bg-color;
+  background-color: white;
+  background-clip: border-box;
+}
+
+.activity-card-body {
+  padding: .5rem 1rem;
+}
+
+.activity-card-comment {
+  padding: 1rem;
+}
+
+.card-faded-text {
+  opacity: 0.5;
+}

@@ -81,7 +81,7 @@ const Event = ({
       onClose={() => setViewingEvent(null)}
       title={event.name}
       type={event.type}
-      className={`eventModal ${event.type}`}
+      className={`eventModal ${event.type} bottom`}
     >
       <p className="event-time-range">{formatDurationMessage()}</p>
       <p className="event-meta">{event.meta}</p>

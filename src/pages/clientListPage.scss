@@ -1,0 +1,32 @@
+.client-list-header {
+  display: flex;
+  padding: .7rem 0;
+  text-transform: uppercase;
+  letter-spacing: .3rem;
+//   background-color: rgb(167, 167, 167);
+  margin-bottom: .4rem;
+  border-radius: 3px;
+  font-weight: 500;
+  width: 100%;
+}
+
+.client-list-header > div {
+  flex: 1;
+}
+
+.client-list-header > div:nth-child(1) {
+    padding-left: .5rem;
+}
+
+.client-list-header > div:nth-child(2) {
+    text-align: center;
+}
+
+.client-list-header > div:nth-child(3) {
+    text-align: end;
+    padding-right: .5rem;
+}
+
+.client-details-link {
+    text-align: right;
+}

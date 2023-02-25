@@ -7,6 +7,7 @@ import CustomTextInput from "../CustomTextInput";
 import CustomDateInput from "../CustomDateInput";
 import CustomSelect from "../CustomSelect";
 import CustomTextAreaInput from "../CustomTextAreaInput";
+import CustomModal from "../../modals/customModal/CustomModal";
 /**
  * EventForm Component
  */

@@ -1,10 +1,13 @@
 import "./addActivityModal.scss";
-import CustomModal from "./CustomModal";
-import { Activity } from "../types";
-import CustomSelect from "./CustomSelect";
+import CustomModal from "../customModal/CustomModal";
+import { Activity } from "../../types";
+import CustomSelect from "../../components/CustomSelect";
 import { useState } from "react";
-import FilingForm from "./ActivityForms/FilingForm";
-import CorrespondenceForm from "./ActivityForms/CorrespondenceForm";
+import FilingForm from "../../components/ActivityForms/FilingForm";
+import CorrespondenceForm from "../../components/ActivityForms/CorrespondenceForm";
+import PhoneEmailForm from "../../components/ActivityForms/PhoneEmailForm";
+import CourtAppearanceForm from "../../components/ActivityForms/CourtAppearanceForm";
+import MeetingForm from "../../components/ActivityForms/MeetingForm";
 
 type Props = {
   show: boolean;
@@ -52,15 +55,9 @@ const AddActivityModal = ({ show, setShow, activities }: Props) => {
 
         {activityType.value === "filing" && <FilingForm />}
         {activityType.value === "correspondence" && <CorrespondenceForm />}
-        {activityType.value === "phoneEmail" && (
-          <div>This is the phoneEmail form</div>
-        )}
-        {activityType.value === "courtAppearance" && (
-          <div>This is the courtAppearance form</div>
-        )}
-        {activityType.value === "meeting" && (
-          <div>This is the meeting form</div>
-        )}
+        {activityType.value === "phoneEmail" && <PhoneEmailForm />}
+        {activityType.value === "courtAppearance" && <CourtAppearanceForm />}
+        {activityType.value === "meeting" && <MeetingForm />}
       </div>
     </CustomModal>
   );

@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getActivities } from "../api/apiCalls";
+import { useAuthContext } from "../context/AuthContext";
 import { Activity } from "../types";
 
-const useActivities = (id: string | undefined) => {
+const useActivities = (id: number | string | undefined) => {
+  const clientId = Number(id);
+
   const [activities, setActivities] = useState<Activity[]>(null!);
   const [activitiesLoading, setActivitiesLoading] = useState(false);
   const [activitiesError, setActivitiesError] = useState("");
+
+  const { currentUser, setCurrentUser } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -14,7 +19,7 @@ const useActivities = (id: string | undefined) => {
     if (id) {
       setActivitiesError("");
       setActivitiesLoading(true);
-      getActivities(Number(id))
+      getActivities(clientId)
         .then((res) => {
           if (res.status === 200) {
             setActivities(res.data);

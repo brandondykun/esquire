@@ -2,17 +2,90 @@
 @use "../colors";
 
 .client-info-page {
+  flex-direction: row;
+}
+
+.client-info-page-col-1 {
   color: colors.$dark-color;
+  flex: 1;
+  background-color: colors.$bright-white;
+}
+
+.client-info-page-col-2 {
+  flex: 3;
+  padding: 1rem;
+  border-right: 1px solid rgb(197, 197, 197);
+  border-left: 1px solid rgb(197, 197, 197);
+  
+}
+
+.client-info-page-col-3 {
+  flex: 1;
+  background-color:colors.$bright-white;
+  padding: .3rem;
 }
   
 .client-info-name-container {
   padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
   
 .client-info-address-container {
-  padding: 1rem;
+  padding: .5rem;
 }
   
 .client-info-contact-container {
-  padding: 1rem;
+  padding: .5rem;
+}
+
+.contact-info-label {
+  opacity: .3;
+  font-size: .9rem;
+  // text-transform: uppercase;
+}
+
+.contact-info-text {
+  // font-weight: bold;
+  padding: .2rem 0 1rem 0;
+}
+
+
+.client-info-sidebar-case-link {
+  border: 1px solid colors.$main-bg-color;
+  opacity: 1;
+  display: block;
+  color: colors.$dark-color;
+  border-radius: 7px;
+  background-color: colors.$bright-white;
+  background-color: white;
+  margin: .4rem .2rem;
+
+  &:hover {
+    background-color: colors.$main-accent;
+    color: colors.$light-color;
+  }
+}
+
+.client-info-sidebar-case-name {
+  padding: .3rem;
+  font-weight: bold;
+}
+
+.client-info-sidebar-case-number {
+  padding: .3rem;
+}
+
+.client-info-edit-button {
+  border: none;
+  background-color: transparent;
+  color: colors.$main-dark-bg-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+    color: colors.$main-accent;
+  }
 }

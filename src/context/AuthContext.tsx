@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { createContext } from "react";
+import { useSelector } from "react-redux";
+import { getCurrentUser } from "../reducers/authSlice";
 
 type AuthContextType = {
   currentUser: CurrentUser | null;
@@ -13,12 +15,13 @@ type Props = {
 };
 
 type CurrentUser = {
-  id: number;
-  email: string;
+  id: number | null;
+  email: string | null;
 };
 
 const AuthProvider = ({ children }: Props) => {
-  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const user = useSelector(getCurrentUser);
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(user);
 
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>

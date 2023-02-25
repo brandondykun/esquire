@@ -4,21 +4,62 @@ import CustomTextAreaInput from "../CustomTextAreaInput";
 import Button from "../Button";
 import { dateToInputFormat } from "../Calendar/CalendarUtils";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const FilingForm = () => {
   const defaultDate = new Date();
+
+  const { clientId } = useParams();
+
+  const [submitLoading, setSubmitLoading] = useState(false);
+
   const [date, setDate] = useState(defaultDate);
+  const [dateErrorText, setDateErrorText] = useState("");
 
   const [typeText, setTypeText] = useState("");
+  const [typeTextErrorText, setTypeTextErrorText] = useState("");
 
   const [filedBy, setFiledBy] = useState("");
+  const [filedByErrorText, setFiledByErrorText] = useState("");
 
   const [deadline, setDeadline] = useState(defaultDate);
+  const [deadlineErrorText, setDeadlineErrorText] = useState("");
 
   const [comments, setComments] = useState("");
+  const [commentsErrorText, setCommentsErrorText] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setDateErrorText("");
+    setTypeTextErrorText("");
+    setFiledByErrorText("");
+    setDeadlineErrorText("");
+    setCommentsErrorText("");
+
+    let error = false;
+
+    if (!date) {
+      setDateErrorText("Please enter a date.");
+      error = true;
+    }
+    if (!typeText) {
+      setTypeTextErrorText("Please enter a type.");
+      error = true;
+    }
+    if (!filedBy) {
+      setFiledByErrorText("Please enter who filed this.");
+      error = true;
+    }
+    if (!deadline) {
+      setDeadlineErrorText("Please enter a deadline.");
+      error = true;
+    }
+    if (!comments) {
+      setCommentsErrorText("Please enter a comment.");
+      error = true;
+    }
+    if (error) return;
 
     const data = {
       type: "filing",
@@ -28,10 +69,11 @@ const FilingForm = () => {
         filedBy: filedBy,
         deadline: deadline,
         comments: comments,
+        clientId,
       },
     };
 
-    console.log("DATAAAA: ", data);
+    // SEND API CALL
   };
 
   return (
@@ -41,10 +83,9 @@ const FilingForm = () => {
           id="date"
           label="DATE"
           value={dateToInputFormat(date)}
-          valid={true}
-          validationText="Validation Text"
+          valid={!dateErrorText}
+          validationText={dateErrorText}
           onChange={(e) => {
-            console.log("DATE e.target.value: ", e.target.value);
             const d = new Date(e.target.value);
             setDate(d);
           }}
@@ -54,8 +95,8 @@ const FilingForm = () => {
           id="type"
           label="TYPE"
           value={typeText}
-          valid={true}
-          validationText="Type validation text."
+          valid={!typeTextErrorText}
+          validationText={typeTextErrorText}
           onChange={(e) => setTypeText(e.target.value)}
         />
 
@@ -63,8 +104,8 @@ const FilingForm = () => {
           id="filedBy"
           label="FILED BY"
           value={filedBy}
-          valid={true}
-          validationText="Filed By validation text."
+          valid={!filedByErrorText}
+          validationText={filedByErrorText}
           onChange={(e) => setFiledBy(e.target.value)}
         />
 
@@ -72,8 +113,8 @@ const FilingForm = () => {
           id="deadline"
           label="DEADLINE"
           value={dateToInputFormat(deadline)}
-          valid={true}
-          validationText="Validation Text for deadline"
+          valid={!deadlineErrorText}
+          validationText={deadlineErrorText}
           onChange={(e) => {
             const d = new Date(e.target.value);
             setDeadline(d);
@@ -83,9 +124,10 @@ const FilingForm = () => {
         <CustomTextAreaInput
           id="comment-text"
           label="COMMENTS"
+          placeholder="Comments..."
           value={comments}
-          valid={true}
-          validationText="Comments Validation text"
+          valid={!commentsErrorText}
+          validationText={commentsErrorText}
           onChange={(e) => setComments(e.target.value)}
         />
 

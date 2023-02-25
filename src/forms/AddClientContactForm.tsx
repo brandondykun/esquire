@@ -1,17 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { addContactInfo } from "../api/apiCalls";
-import CustomTextInput from "./CustomTextInput";
-import Button from "./Button";
+import CustomTextInput from "../components/CustomTextInput";
+import Button from "../components/Button";
 
 type AddClientContactFormProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   clientId: number;
 };
 
-const AddClientContactForm = ({
-  setStep,
-  clientId,
-}: AddClientContactFormProps) => {
+const AddClientContactForm = ({ setStep, clientId }: AddClientContactFormProps) => {
   const [phone, setPhone] = useState("");
   const [phoneValid, setPhoneValid] = useState(true);
   const [phoneValidationText, setPhoneValidationText] = useState("");
@@ -86,36 +83,36 @@ const AddClientContactForm = ({
   };
 
   return (
-    <div className="add-client-form-container">
-      <form onSubmit={handleSubmit} className="add-client-form">
-        <CustomTextInput
-          id="phone"
-          label="PHONE NUMBER"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          valid={phoneValid}
-          validationText={phoneValidationText}
-          ref={inputRef}
-        />
+    // <div className="add-client-form-container">
+    <form onSubmit={handleSubmit} className="add-client-form">
+      <CustomTextInput
+        id="phone"
+        label="PHONE NUMBER"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        valid={phoneValid}
+        validationText={phoneValidationText}
+        ref={inputRef}
+      />
 
-        <CustomTextInput
-          id="email"
-          label="EMAIL"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          valid={emailValid}
-          validationText={emailValidationText}
-        />
+      <CustomTextInput
+        id="email"
+        label="EMAIL"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        valid={emailValid}
+        validationText={emailValidationText}
+      />
 
-        <Button
-          type="submit"
-          text="ADD CONTACT INFO"
-          width="100%"
-          disabled={submitLoading}
-          loading={submitLoading}
-        />
-      </form>
-    </div>
+      <Button
+        type="submit"
+        text="ADD CONTACT INFO"
+        // width="100%"
+        disabled={submitLoading}
+        loading={submitLoading}
+      />
+    </form>
+    // </div>
   );
 };
 

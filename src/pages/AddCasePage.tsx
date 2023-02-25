@@ -11,9 +11,7 @@ import Button from "../components/Button";
 const AddCasePage = () => {
   const { clientId } = useParams();
 
-  const { nameLoading, clientName, nameError } = useClient({
-    id: Number(clientId),
-  });
+  const { nameLoading, clientName, nameError } = useClient(clientId);
 
   const [caseName, setCaseName] = useState("");
   const [caseNameValid, setCaseNameValid] = useState(true);

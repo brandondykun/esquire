@@ -12,7 +12,7 @@ const useEvents = () => {
 
   const navigate = useNavigate();
 
-  const { currentUser } = useAuthContext();
+  const { currentUser, setCurrentUser } = useAuthContext();
 
   useEffect(() => {
     if (currentUser) {
@@ -25,6 +25,7 @@ const useEvents = () => {
         })
         .catch((err) => {
           if (err.response?.data?.error === "NO TOKEN") {
+            setCurrentUser(null);
             navigate("/login");
           }
           setEventsError("There was a problem fetching your list");

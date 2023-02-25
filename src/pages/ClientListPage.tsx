@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom";
+import "./clientListPage.scss";
+import { Link, useNavigate } from "react-router-dom";
 import useClients from "../hooks/useClients";
 import { Client } from "../types";
 import CaseListSideBar from "../components/CaseListSidebar";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import AddClientModal from "../modals/addClientModal/AddClientModal";
+import { useSelector, useDispatch } from "react-redux";
+import { getClients, getClientsStatus, getClientsError } from "../reducers/clientsSlice";
+import { AppDispatch } from "../store/store";
+import { fetchClientsById } from "../reducers/clientsSlice";
+import { getCurrentUser } from "../reducers/authSlice";
 
 type ClientNameType = {
   first: string;
@@ -13,18 +19,28 @@ type ClientNameType = {
 };
 
 const ClientListPage = () => {
-  const { clients, error, loading } = useClients();
-
+  const [showAddClientModal, setShowAddClientModal] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [filteredClients, setFilteredClients] = useState<Client[] | undefined>(
-    []
-  );
+  // const {} = useClients(showAddClientModal);
+
+  const currentUser = useSelector(getCurrentUser);
+
+  const clients = useSelector(getClients);
+  const error = useSelector(getClientsError);
+  const status = useSelector(getClientsStatus);
+
+  useEffect(() => {
+    if (currentUser.id) {
+      dispatch(fetchClientsById(currentUser.id));
+    }
+  }, []);
+
+  const [filteredClients, setFilteredClients] = useState<Client[] | undefined>([]);
   const [inputValue, setInputValue] = useState("");
 
-  const [activeClient, setActiveClient] = useState<number | undefined>(
-    undefined
-  );
+  const [activeClient, setActiveClient] = useState<number | undefined>(undefined);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -34,8 +50,8 @@ const ClientListPage = () => {
     if (value !== "") {
       const filtered = clients?.filter((c) => {
         return (
-          c.firstName.toLowerCase().startsWith(value.toLowerCase()) ||
-          c.lastName.toLowerCase().startsWith(value.toLowerCase())
+          c.firstName.toLowerCase().includes(value.toLowerCase()) ||
+          c.lastName.toLowerCase().includes(value.toLowerCase())
         );
       });
       setFilteredClients(filtered);
@@ -52,16 +68,9 @@ const ClientListPage = () => {
   return (
     <div className="page-container">
       <div className="client-list-page">
-        <div
-          className="client-list-container"
-          onClick={() => setActiveClient(undefined)}
-        >
+        <div className="client-list-container" onClick={() => setActiveClient(undefined)}>
           <div className="add-client-button-container">
-            <button
-              type="button"
-              className="add-client-button"
-              onClick={() => navigate("/add-client")}
-            >
+            <button type="button" className="add-client-button" onClick={() => setShowAddClientModal(true)}>
               ADD CLIENT
             </button>
           </div>
@@ -79,23 +88,24 @@ const ClientListPage = () => {
             <button
               type="button"
               onClick={handleClearClick}
-              className={`name-input-clear-button ${
-                inputValue !== "" ? "show" : ""
-              }`}
+              className={`name-input-clear-button ${inputValue !== "" ? "show" : ""}`}
             >
               <FontAwesomeIcon icon={faCircleXmark} />
             </button>
           </div>
           <div className="client-list-list">
-            {loading ? (
+            <div className="client-list-header">
+              <div>Name</div>
+              <div>Cases</div>
+              <div>Details</div>
+            </div>
+            {status === "loading" ? (
               <div>Loading list....</div>
             ) : inputValue === "" ? (
               clients?.map((client: Client) => {
                 return (
                   <div
-                    className={`client-list-item ${
-                      activeClient === client.id ? "active-client" : ""
-                    }`}
+                    className={`client-list-item ${activeClient === client.id ? "active-client" : ""}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setActiveClient(client.id);
@@ -105,9 +115,12 @@ const ClientListPage = () => {
                     <div>
                       {client.lastName}, {client.firstName}
                     </div>
-                    <Link className="details-link" to={`/client/${client.id}`}>
-                      details
-                    </Link>
+                    <div>{client.caseCount}</div>
+                    <div className="client-details-link">
+                      <Link className="details-link" to={`/client/${client.id}`}>
+                        view details
+                      </Link>
+                    </div>
                   </div>
                 );
               })
@@ -115,9 +128,7 @@ const ClientListPage = () => {
               filteredClients?.map((client: Client) => {
                 return (
                   <div
-                    className={`client-list-item ${
-                      activeClient === client.id ? "active-client" : ""
-                    }`}
+                    className={`client-list-item ${activeClient === client.id ? "active-client" : ""}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setActiveClient(client.id);
@@ -127,9 +138,12 @@ const ClientListPage = () => {
                     <div>
                       {client.lastName}, {client.firstName}
                     </div>
-                    <Link className="details-link" to={`/client/${client.id}`}>
-                      details
-                    </Link>
+                    <div>{client.caseCount}</div>
+                    <div className="client-details-link">
+                      <Link className="details-link" to={`/client/${client.id}`}>
+                        view details
+                      </Link>
+                    </div>
                   </div>
                 );
               })
@@ -137,10 +151,11 @@ const ClientListPage = () => {
               <div className="client-list-no-matches-text">No Matches</div>
             )}
           </div>
-          {error && <div>Error: {error}</div>}
+          {error && <div>{error}</div>}
         </div>
 
         <CaseListSideBar id={activeClient} />
+        <AddClientModal show={showAddClientModal} setShow={setShowAddClientModal} />
       </div>
     </div>
   );

@@ -1,9 +1,11 @@
 import "./App.scss";
-import ClientListPage from "./pages/ClientListPage";
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import Navbar from "./components/Navbar";
+import AuthRoute from "./routes/AuthRoute";
+import ClientListPage from "./pages/ClientListPage";
 import HomePage from "./pages/HomePage";
 import ClientInfoPage from "./pages/ClientInfoPage";
-import Navbar from "./components/Navbar";
 import AddClientPage from "./pages/AddClientPage";
 import AddCasePage from "./pages/AddCasePage";
 import CaseDetailsPage from "./pages/CaseDetailsPage";
@@ -11,35 +13,31 @@ import CalendarPage from "./pages/CalendarPage";
 import LoginPage from "./pages/LoginPage";
 import NotesPage from "./pages/NotesPage";
 import ActivityPage from "./pages/ActivityPage";
-import AuthRoute from "./routes/AuthRoute";
-import { whoAmI } from "./api/apiCalls";
-import { useEffect, useState } from "react";
-import { useAuthContext } from "./context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "./store/store";
+import {
+  getLoginStatus,
+  getCurrentUser,
+  confirmLogin,
+} from "./reducers/authSlice";
 
 const App = () => {
-  const [authLoading, setAuthLoading] = useState(true);
-  const { currentUser, setCurrentUser } = useAuthContext();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const loginStatus = useSelector(getLoginStatus);
+  const currentUser = useSelector(getCurrentUser);
 
   useEffect(() => {
-    whoAmI()
-      .then((res) => {
-        if (res.status === 200) {
-          setCurrentUser(res.data);
-        }
-      })
-      .catch((err) => {
-        console.error(err.message);
-      })
-      .finally(() => setAuthLoading(false));
+    dispatch(confirmLogin());
   }, []);
 
   return (
     <div className="App">
-      {authLoading ? (
+      {loginStatus === "loading" ? (
         <div>Loading...</div>
       ) : (
         <>
-          {currentUser && <Navbar />}
+          {currentUser?.id && <Navbar />}
           <Routes>
             <Route path="/login" element={<LoginPage />} />
 

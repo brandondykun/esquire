@@ -23,10 +23,13 @@
     }
   }
   
-  .add-client-form, 
+  .add-client-form {
+    flex: .5;
+    display: flex;
+    flex-direction: column;
+  }
+
   .add-case-form {
-    max-width: 400px;
-    min-width: 300px;
     flex: .5;
     display: flex;
     flex-direction: column;

@@ -3,6 +3,7 @@ export type Client = {
   firstName: string;
   middleName: string;
   lastName: string;
+  caseCount: string;
 };
 
 export type DbClient = {
@@ -11,9 +12,17 @@ export type DbClient = {
   middle_name: string;
   last_name: string;
   user_id: number;
+  case_count: string;
 };
 
 export type NewClient = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+};
+
+export type EditClientName = {
+  id: number;
   firstName: string;
   middleName: string;
   lastName: string;

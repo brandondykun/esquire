@@ -1,6 +1,7 @@
 import useCases from "../hooks/useCases";
 import useClient from "../hooks/useClient";
 import { Link } from "react-router-dom";
+import CaseList from "./CaseList";
 
 type ClientNameType = {
   first: string;
@@ -12,8 +13,8 @@ type CasesProps = {
 };
 
 const CaseListSideBar = ({ id }: CasesProps) => {
-  const { nameLoading, clientName, nameError } = useClient({ id });
-  const { loading, cases, error } = useCases({ id });
+  const { nameLoading, clientName, nameError } = useClient(id);
+  const { loading, cases, error } = useCases(id);
 
   return (
     <div className="case-list-sidebar">
@@ -25,25 +26,7 @@ const CaseListSideBar = ({ id }: CasesProps) => {
           <h3 className="case-list-sidebar-name">
             {clientName?.lastName}, {clientName?.firstName}
           </h3>
-
-          {cases && cases.length > 0 ? (
-            cases?.map((c) => {
-              return (
-                <Link
-                  to={`/case/${c.clientId}/${c.id}`}
-                  className="sidebar-case-link"
-                  key={c.id}
-                >
-                  <div className="sidebar-case">
-                    <div className="sidebar-case-name">{c.name}</div>
-                    <div className="sidebar-case-number">{c.caseNumber}</div>
-                  </div>
-                </Link>
-              );
-            })
-          ) : (
-            <div>No cases on file</div>
-          )}
+          <CaseList cases={cases} />
         </div>
       ) : (
         <div>{error}</div>

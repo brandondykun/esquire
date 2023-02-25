@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import CustomTextInput from "../components/CustomTextInput";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { login } from "../api/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, resetAuthState } from "../reducers/authSlice";
+import { AppDispatch } from "../store/store";
+import { getLoginStatus, getLoginError } from "../reducers/authSlice";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -14,11 +18,22 @@ const LoginForm = () => {
 
   const [loginErrorText, setLoginErrorText] = useState("");
 
-  const [loginLoading, setLoginLoading] = useState(false);
+  // const [loginLoading, setLoginLoading] = useState(false);
 
-  const { currentUser, setCurrentUser } = useAuthContext();
+  // const { currentUser, setCurrentUser } = useAuthContext();
+
+  const dispatch = useDispatch<AppDispatch>();
+  const loginStatus = useSelector(getLoginStatus);
+  const loginError = useSelector(getLoginError);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loginStatus === "succeeded") {
+      dispatch(resetAuthState());
+      navigate("/");
+    }
+  }, [loginStatus]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,21 +60,22 @@ const LoginForm = () => {
       return;
     }
     // This is a mock login
-    setLoginLoading(true);
-    login({ email: username, password })
-      .then((res) => {
-        if (res.status === 200) {
-          setCurrentUser(res.data);
-          navigate("/");
-          return;
-        }
-        setLoginErrorText("Invalid credentials.");
-      })
-      .catch((err) => {
-        console.error("LOGIN ERR: ", err.message);
-        setLoginErrorText("There was an issue logging you in.");
-      })
-      .finally(() => setLoginLoading(false));
+    // setLoginLoading(true);
+    dispatch(loginUser({ email: username, password }));
+    // login({ email: username, password })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       setCurrentUser(res.data);
+    //       navigate("/");
+    //       return;
+    //     }
+    //     setLoginErrorText("Invalid credentials.");
+    //   })
+    //   .catch((err) => {
+    //     console.error("LOGIN ERR: ", err.message);
+    //     setLoginErrorText("There was an issue logging you in.");
+    //   })
+    //   .finally(() => setLoginLoading(false));
   };
   return (
     <>
@@ -83,8 +99,8 @@ const LoginForm = () => {
           validationText={passwordErrorText}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" text="LOG IN" loading={loginLoading} />
-        <div className="login-error-text-container">{loginErrorText}</div>
+        <Button type="submit" text="LOG IN" loading={loginStatus === "loading" ? true : false} />
+        <div className="login-error-text-container">{loginError}</div>
       </form>
     </>
   );

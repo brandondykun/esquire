@@ -1,0 +1,26 @@
+@use "../colors";
+
+// .custom-menu > ul{
+//   background-color: red;
+//   z-index: 3;
+//   padding: 1rem;
+//   text-decoration: none;
+//   list-style-type: none;
+//   width: 300px;
+// }
+
+.filter-menu-container {
+  display: flex;
+  align-items: center;
+}
+
+.activity-list-menu-trigger {
+  margin-left: 1rem;
+  width: 30px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background-color: colors.$main-accent;
+  color: colors.$light-color;
+  cursor: pointer;
+}

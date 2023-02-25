@@ -2,30 +2,39 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCase } from "../api/apiCalls";
 import { Case } from "../types";
+import { useAuthContext } from "../context/AuthContext";
+import camelcaseKeys from "camelcase-keys";
 
 type CaseProps = {
   id: number | undefined;
 };
 
-const useCase = ({ id }: CaseProps) => {
+const useCase = (id: number | string | undefined) => {
+  const caseId = Number(id);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [caseInfo, setCaseInfo] = useState<null | Case>(null);
   const [error, setError] = useState<null | string>(null);
 
+  const { currentUser, setCurrentUser } = useAuthContext();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (id) {
+    if (id && currentUser) {
       setError("");
       setLoading(true);
-      getCase(id)
+      getCase(caseId)
         .then((res) => {
-          console.log("THIS IS THE CASE DATA: ", res.data);
-          setCaseInfo(res.data);
-          setLoading(false);
+          if (res.status === 200) {
+            const formatted = camelcaseKeys(res.data);
+            setCaseInfo(formatted);
+            setLoading(false);
+          }
         })
         .catch((err) => {
           if (err.response?.data?.error === "NO TOKEN") {
+            setCurrentUser(null);
             navigate("/login");
           }
           setError("There was a problem fetching the cases");
