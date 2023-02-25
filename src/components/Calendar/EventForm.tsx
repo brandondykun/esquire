@@ -2,7 +2,7 @@ import Modal from "./Modal";
 import { dateToInputFormat } from "./CalendarUtils";
 import { EventFormProps, EventTypeWithId, EventType } from "./CalendarTypes";
 import { useEffect, useState } from "react";
-import Button from "../Button";
+import Button from "../Button/Button";
 import CustomTextInput from "../CustomTextInput";
 import CustomDateInput from "../CustomDateInput";
 import CustomSelect from "../CustomSelect";
@@ -200,16 +200,8 @@ const EventForm = ({
           </>
         ) : (
           <>
-            <Button
-              onClick={submitEvent}
-              text="ADD EVENT TO CALENDAR"
-              type="button"
-              margin="0px auto 0px auto"
-            />
-            <a
-              className="close"
-              onClick={() => setShowingEventForm({ visible: false })}
-            >
+            <Button onClick={submitEvent} text="ADD EVENT TO CALENDAR" type="button" margin="0px auto 0px auto" />
+            <a className="close" onClick={() => setShowingEventForm({ visible: false })}>
               Cancel (go back to calendar)
             </a>
           </>

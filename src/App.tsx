@@ -1,7 +1,7 @@
 import "./App.scss";
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import AuthRoute from "./routes/AuthRoute";
 import ClientListPage from "./pages/ClientListPage";
 import HomePage from "./pages/HomePage";
@@ -15,11 +15,7 @@ import NotesPage from "./pages/NotesPage";
 import ActivityPage from "./pages/ActivityPage";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "./store/store";
-import {
-  getLoginStatus,
-  getCurrentUser,
-  confirmLogin,
-} from "./reducers/authSlice";
+import { getLoginStatus, getCurrentUser, confirmLogin } from "./reducers/authSlice";
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();

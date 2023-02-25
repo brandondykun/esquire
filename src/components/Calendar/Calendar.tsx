@@ -2,7 +2,7 @@
 // https://justacoding.blog/react-calendar-component-example-with-events/
 import "./calendar.scss";
 import React from "react";
-import Button from "../Button";
+import Button from "../Button/Button";
 import Navigation from "./Navigation";
 import MiniEvent from "./MiniEvent";
 import Grid from "./Grid";
@@ -13,18 +13,8 @@ import EventForm from "./EventForm";
 import Loader from "./Loader";
 import useEvents from "../../hooks/useEvents";
 import { parseEvents } from "./CalendarUtils";
-import {
-  ShowingEventFormType,
-  CalendarProps,
-  EventType,
-  FeedbackType,
-  EventTypeWithId,
-} from "./CalendarTypes";
-import {
-  saveEvent,
-  editEvent as editEventApiCall,
-  deleteEvent as deleteEventApiCall,
-} from "../../api/apiCalls";
+import { ShowingEventFormType, CalendarProps, EventType, FeedbackType, EventTypeWithId } from "./CalendarTypes";
+import { saveEvent, editEvent as editEventApiCall, deleteEvent as deleteEventApiCall } from "../../api/apiCalls";
 import { useAuthContext } from "../../context/AuthContext";
 import camelcaseKeys from "camelcase-keys";
 import { useState, useEffect } from "react";
@@ -38,11 +28,8 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
   const selectedDate = new Date(year, month - 1);
 
   const [date, setDate] = useState<Date>(selectedDate);
-  const [viewingEvent, setViewingEvent] = useState<EventTypeWithId | null>(
-    null
-  );
-  const [showingEventForm, setShowingEventForm] =
-    useState<ShowingEventFormType>({ visible: false });
+  const [viewingEvent, setViewingEvent] = useState<EventTypeWithId | null>(null);
+  const [showingEventForm, setShowingEventForm] = useState<ShowingEventFormType>({ visible: false });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<FeedbackType | null>(null);
 
@@ -117,9 +104,7 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
             const formattedEvents = camelcaseKeys(res.data);
             const parsedEvent = parseEvents([formattedEvents]);
             const updatedEvents = [...events].map((updatedEvent) => {
-              return updatedEvent.id === event.id
-                ? parsedEvent[0]
-                : updatedEvent;
+              return updatedEvent.id === event.id ? parsedEvent[0] : updatedEvent;
             });
             setEvents(updatedEvents);
             setIsLoading(false);
@@ -148,9 +133,7 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
     deleteEventApiCall(event.id)
       .then((res) => {
         if (res.status === 200) {
-          const updatedEvents = [...events].filter(
-            (finalEvent) => finalEvent.id != event.id
-          );
+          const updatedEvents = [...events].filter((finalEvent) => finalEvent.id != event.id);
           setEvents(updatedEvents);
           setIsLoading(false);
           showFeedback({
@@ -169,11 +152,7 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
       });
   };
 
-  const showFeedback = ({
-    message,
-    type,
-    timeout = 2000,
-  }: ShowFeedbackProps) => {
+  const showFeedback = ({ message, type, timeout = 2000 }: ShowFeedbackProps) => {
     setFeedback({ message, type });
     setTimeout(() => {
       setFeedback(null);
@@ -186,11 +165,7 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
 
       {feedback && <Feedback message={feedback.message} type={feedback.type} />}
 
-      <Navigation
-        date={date}
-        setDate={setDate}
-        setShowingEventForm={setShowingEventForm}
-      />
+      <Navigation date={date} setDate={setDate} setShowingEventForm={setShowingEventForm} />
       <div className="day-labels-container">
         <DayLabels />
       </div>
@@ -222,9 +197,7 @@ const Calendar = ({ month, year, preloadedEvents = [] }: CalendarProps) => {
           setViewingEvent={setViewingEvent}
         />
       )}
-      {eventsLoading && (
-        <div className="loading-events-popup">Loading Events...</div>
-      )}
+      {eventsLoading && <div className="loading-events-popup">Loading Events...</div>}
     </div>
   );
 };

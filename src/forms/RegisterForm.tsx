@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../components/Button";
+import Button from "../components/Button/Button";
 import CustomTextInput from "../components/CustomTextInput";
 import { registerUser } from "../api/apiCalls";
 import { useNavigate } from "react-router-dom";

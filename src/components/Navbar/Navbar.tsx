@@ -1,24 +1,14 @@
 import "./navbar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouse,
-  faListUl,
-  faRightFromBracket,
-  faCalendarDays,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faListUl, faRightFromBracket, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { CgNotes } from "react-icons/cg";
 import { BsFillCalendarFill } from "react-icons/bs";
-import { useAuthContext } from "../context/AuthContext";
-import { logOut } from "../api/apiCalls";
+import { useAuthContext } from "../../context/AuthContext";
+import { logOut } from "../../api/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getCurrentUser,
-  logOutUser,
-  getLogOutStatus,
-  resetAuthState,
-} from "../reducers/authSlice";
-import { AppDispatch } from "../store/store";
+import { getCurrentUser, logOutUser, getLogOutStatus, resetAuthState } from "../../reducers/authSlice";
+import { AppDispatch } from "../../store/store";
 import { useEffect } from "react";
 
 const Navbar = () => {
@@ -59,11 +49,7 @@ const Navbar = () => {
         {currentUser?.email} ID: {currentUser?.id}
       </div>
       <div className="navbar-links-container">
-        <NavLink
-          className="navbar-link"
-          to="/"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
+        <NavLink className="navbar-link" to="/" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
           <span className="nav-text">HOME</span>
           <FontAwesomeIcon icon={faHouse} className="nav-icon" />
         </NavLink>
@@ -76,20 +62,12 @@ const Navbar = () => {
           <FontAwesomeIcon icon={faListUl} className="nav-icon" />
         </NavLink>
 
-        <NavLink
-          className="navbar-link"
-          to="/calendar"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
+        <NavLink className="navbar-link" to="/calendar" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
           <span className="nav-text">CALENDAR</span>
           <BsFillCalendarFill className="nav-icon" />
         </NavLink>
 
-        <NavLink
-          className="navbar-link"
-          to="/notes"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
+        <NavLink className="navbar-link" to="/notes" style={({ isActive }) => (isActive ? activeStyle : undefined)}>
           <span className="nav-text">NOTES</span>
           <CgNotes className="nav-icon" />
         </NavLink>

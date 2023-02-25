@@ -1,6 +1,6 @@
 import { EventType, ShowingEventFormType, EventProps } from "./CalendarTypes";
 import Modal from "./Modal";
-import Button from "../Button";
+import Button from "../Button/Button";
 
 /**
  * Event Component
@@ -8,20 +8,14 @@ import Button from "../Button";
 
 // The main event view, opens in a modal and contains all information
 // about the event in question
-const Event = ({
-  event,
-  setViewingEvent,
-  setShowingEventForm,
-  deleteEvent,
-}: EventProps) => {
+const Event = ({ event, setViewingEvent, setShowingEventForm, deleteEvent }: EventProps) => {
   // format start and end times to display properly
   const startDateTime = new Date(event.dateFrom);
   const startDate = startDateTime.toLocaleDateString();
   const startHours = startDateTime.getHours();
   const startMinutes = startDateTime.getMinutes();
   const formattedStartHours = startHours < 10 ? "0" + startHours : startHours;
-  const formattedStartMinutes =
-    startMinutes < 10 ? "0" + startMinutes : startMinutes;
+  const formattedStartMinutes = startMinutes < 10 ? "0" + startMinutes : startMinutes;
   const formattedStartTime = `${formattedStartHours}${formattedStartMinutes}`;
 
   const endDateTime = new Date(event.dateTo);
@@ -33,8 +27,7 @@ const Event = ({
   const formattedEndTime = `${formattedEndHours}${formattedEndMinutes}`;
 
   // boolean for if the day is all day event
-  const isAllDayEvent =
-    formattedStartTime === "0000" && formattedEndTime === "2359";
+  const isAllDayEvent = formattedStartTime === "0000" && formattedEndTime === "2359";
 
   const formatDurationMessage = () => {
     if (startDate === endDate && !isAllDayEvent) {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import AddClientNameForm from "../../forms/AddClientNameForm";
 import AddClientAddressForm from "../../forms/AddClientAddressForm";
 import AddClientContactForm from "../../forms/AddClientContactForm";
-import ProgressBar from "../../components/ProgressBar";
+import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import CustomModal from "../customModal/CustomModal";
 import "./addClientModal.scss";
 
@@ -28,21 +28,13 @@ const AddClientModal = ({ show, setShow }: Props) => {
     <CustomModal show={show} title="ADD CLIENT" onClose={onClose}>
       <div className="add-client-modal-inner">
         <ProgressBar step={step} />
-        {step === 0 && (
-          <AddClientNameForm setStep={setStep} setClientId={setClientId} />
-        )}
-        {step === 1 && (
-          <AddClientAddressForm setStep={setStep} clientId={clientId} />
-        )}
-        {step === 2 && (
-          <AddClientContactForm setStep={setStep} clientId={clientId} />
-        )}
+        {step === 0 && <AddClientNameForm setStep={setStep} setClientId={setClientId} />}
+        {step === 1 && <AddClientAddressForm setStep={setStep} clientId={clientId} />}
+        {step === 2 && <AddClientContactForm setStep={setStep} clientId={clientId} />}
         {step === 3 && (
           <>
             <div className="add-client-success-container">
-              <div className="add-client-success-title">
-                Client has been successfully created!
-              </div>
+              <div className="add-client-success-title">Client has been successfully created!</div>
             </div>
 
             <div className="add-client-success-button-container">

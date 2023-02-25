@@ -4,7 +4,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { useParams } from "react-router-dom";
 import { addCase } from "../../api/apiCalls";
 import useClient from "../../hooks/useClient";
-import Button from "../../components/Button";
+import Button from "../../components/Button/Button";
 import CustomModal from "../customModal/CustomModal";
 import { Case } from "../../types";
 import camelcaseKeys from "camelcase-keys";

@@ -1,15 +1,15 @@
-import ActivityFilter from "./ActivityFilter";
-import Button from "./Button";
+import ActivityFilter from "../ActivityFilter/ActivityFilter";
+import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import AddActivityModal from "../modals/addActivityModal/AddActivityModal";
+import AddActivityModal from "../../modals/addActivityModal/AddActivityModal";
 import { useEffect, useState } from "react";
-import useActivities from "../hooks/useActivities";
-import CorrespondenceCard from "./ActivityCards/CorrespondenceCard";
-import CourtCard from "./ActivityCards/CourtCard";
-import FilingCard from "./ActivityCards/FilingCard";
-import MeetingCard from "./ActivityCards/MeetingCard";
-import PhoneEmailCard from "./ActivityCards/PhoneEmailCard";
+import useActivities from "../../hooks/useActivities";
+import CorrespondenceCard from "../ActivityCards/CorrespondenceCard";
+import CourtCard from "../ActivityCards/CourtCard";
+import FilingCard from "../ActivityCards/FilingCard";
+import MeetingCard from "../ActivityCards/MeetingCard";
+import PhoneEmailCard from "../ActivityCards/PhoneEmailCard";
 import { Menu, MenuItem, MenuButton, SubMenu } from "@szhsin/react-menu";
 import "./activityList.scss";
 import "@szhsin/react-menu/dist/index.css";
@@ -49,8 +49,7 @@ const activitie = [
       type: "Civil complaint", // Entry of appearance, court order
       filedBy: "Gillian Perez",
       deadline: "Feb 23, 2023", // Could be N/A
-      comments:
-        "This is another comment about this and its a little longer than the rest.",
+      comments: "This is another comment about this and its a little longer than the rest.",
       clientId: 1,
     },
   },
@@ -110,8 +109,7 @@ const ActivityList = ({ setShowAddCaseModal }: Props) => {
 
   const [filtered, setFiltered] = useState(activitie);
 
-  const { activities, activitiesError, activitiesLoading, setActivities } =
-    useActivities(clientId);
+  const { activities, activitiesError, activitiesLoading, setActivities } = useActivities(clientId);
 
   const [showActivityModal, setShowActivityModal] = useState(false);
 
@@ -138,12 +136,8 @@ const ActivityList = ({ setShowAddCaseModal }: Props) => {
           align="end"
           offsetY={7}
         >
-          <MenuItem onClick={() => setShowActivityModal(true)}>
-            Add Activity
-          </MenuItem>
-          <MenuItem onClick={() => setShowAddCaseModal(true)}>
-            Add Case
-          </MenuItem>
+          <MenuItem onClick={() => setShowActivityModal(true)}>Add Activity</MenuItem>
+          <MenuItem onClick={() => setShowAddCaseModal(true)}>Add Case</MenuItem>
         </Menu>
       </div>
       {filtered.map((a) => {

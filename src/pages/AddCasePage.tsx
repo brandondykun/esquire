@@ -6,7 +6,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { useParams } from "react-router-dom";
 import { addCase } from "../api/apiCalls";
 import useClient from "../hooks/useClient";
-import Button from "../components/Button";
+import Button from "../components/Button/Button";
 
 const AddCasePage = () => {
   const { clientId } = useParams();
@@ -149,11 +149,7 @@ const AddCasePage = () => {
             <h2>Case Added Successfully!</h2>
             <div style={{ display: "flex", gap: "2rem" }}>
               <Button text="VIEW CASE" type="button" />
-              <Button
-                text="ADD ANOTHER"
-                type="button"
-                onClick={() => setCaseAddComplete(false)}
-              />
+              <Button text="ADD ANOTHER" type="button" onClick={() => setCaseAddComplete(false)} />
             </div>
           </div>
         )}

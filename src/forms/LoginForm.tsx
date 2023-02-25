@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Button from "../components/Button";
+import Button from "../components/Button/Button";
 import CustomTextInput from "../components/CustomTextInput";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
