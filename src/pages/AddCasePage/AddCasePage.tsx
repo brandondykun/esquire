@@ -1,5 +1,5 @@
 import "./addCasePage.scss";
-import "./addClientPage.scss";
+import "../AddClientPage/addClientPage.scss";
 import { useState } from "react";
 import CustomTextInput from "../../components/CustomTextInput/CustomTextInput";
 import PulseLoader from "react-spinners/PulseLoader";
